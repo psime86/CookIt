@@ -30,7 +30,7 @@ export default function HomeScreen() {
           </View>
 
           <Text style={styles.getStartedText}>
-            takes SO LONG!!!!.
+            test expo client
           </Text>
         </View>
 
