@@ -18,7 +18,7 @@ app.use(express.json());
 app.use("/api", routes);
 
 app.use((req, res, next) => {
-    res.send("Welcome to Express");
+    res.send("Welcome to Express, Backend server is up and running!");
 });
 
 //=====================================================

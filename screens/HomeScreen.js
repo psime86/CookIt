@@ -30,7 +30,7 @@ export default function HomeScreen() {
           </View>
 
           <Text style={styles.getStartedText}>
-            test expo client
+            back edn up and running with expo app
           </Text>
         </View>
 
