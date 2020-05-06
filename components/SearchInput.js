@@ -2,11 +2,13 @@ import React from 'react';
 
 import { TextInput, Button, View } from 'react-native';
 
-export default function () {
+export default function Form(props) {
+  
+
   return (
     <View>
-      <TextInput placeholder='Search Recipe' style={styles.input} />
-      <Button title='Search' />
+      <TextInput onChangeText={text => props.handleInputChange(text)}  placeholder='Search Recipe' style={styles.input} />
+      <Button onPress={props.handleFormSubmit} title='Search' />
     </View>
   );
 }

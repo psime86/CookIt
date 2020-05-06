@@ -3,6 +3,7 @@
 //===================================================
 
 import axios from "axios";
+import { SPOONACULAR_API } from 'react-native-dotenv'
 
 // Define API functions inside exported module.
 
@@ -11,32 +12,51 @@ export default {
     searchRecipe: function(searchTerm) {
 
         // Define the api key and apiURL
-        const key=process.env.SPOONACULAR_API
+        let apiKey = SPOONACULAR_API
+        console.log("key: " + apiKey)
+        console.log("searchterm: " + searchTerm)
         
-        // Search spoonacular for recipe ("params" may be made into definable options later on)
+        // Search spoonacular for recipe "FROM SPOONACULAR API (NOT RAPID API)"
         return axios({
             "method":"GET",
-            "url":"https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/search",
+            "url":`https://api.spoonacular.com/recipes/search?query=${searchTerm}&number=10&apiKey=${apiKey}`,
             "header":
                 {
-                "content-type": "application/octet-stream",
-                "x-rapidapi-host":"spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
-                "x-rapidapi-key": key,
-                },
-            "params":
-                {
-                "diet":"vegetarian",
-                "excludeIngredients":"coconut",
-                "intolerances":"egg%2C gluten",
-                "number":"10",
-                "offset":"0",
-                "type":"main course",
-                "query":"burger"
+                "content-type": "application/octet-stream"
                 }
         })
         .then(res => res.data)
         .catch(err => console.log(err))
+        
+        // attempt 2 (Spoonacular with RAPID API, results error)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        // let URL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/search";
+        // let config = {
+        //     headers: {
+        //         "content-type": "application/json",
+        //         "x-rapidapi-host":"spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
+        //         "x-rapidapi-key": apiKey,
+        //     },
+        //     params: {
+        //         "diet":null,
+        //         "excludeIngredients":"coconut",
+        //         "intolerances":"egg%2C gluten",
+        //         "number":"10",
+        //         "offset":"0",
+        //         "type":"main course",
+        //         "query": searchTerm
+        //     }
+        //   };
+
+        //   return axios.get(URL, config)
+        //     .then(res => res.data)
+        //     .catch(err => console.log(err))
     },
+
+    
+
+
+
     // Route to search for more recipe info (ingredients, etc.) by recipeId number
     getRecipeInfo: function(recipeId) {
         
@@ -87,3 +107,7 @@ export default {
             .catch(err => console.log(err))
     }
 };
+
+
+// Notes:
+    // To throw recipes into shopping cart, do we need to call recipe info in BG, grab each item name, and add to cart?
