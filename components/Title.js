@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { StyleSheet, View, ImageBackground, Text } from 'react-native';
 import * as Font from 'expo-font';
@@ -27,10 +28,12 @@ export default function Title() {
       <AppLoading startAsync={getFonts} onFinish={() => setFontsLoaded(true)} />
     );
   }
+
 }
 
 const styles = StyleSheet.create({
   img: {
+
     height: 125,
     width: '100%',
     flex: 3,
@@ -40,6 +43,7 @@ const styles = StyleSheet.create({
     fontSize: 60,
     flex: 1,
     fontFamily: 'DancingScript-Bold',
+
   },
   container: {
     flex: 1,

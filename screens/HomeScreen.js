@@ -20,6 +20,7 @@ import SearchInput from '../components/SearchInput';
 export default function HomeScreen() {
   return (
     <ScrollView>
+
       <View>
         <Title />
         <SearchInput />
@@ -29,6 +30,7 @@ export default function HomeScreen() {
         </View>
       </View>
     </ScrollView>
+
   );
 }
 
@@ -73,8 +75,10 @@ function handleHelpPress() {
 
 const styles = StyleSheet.create({
   container: {
+
     padding: 10,
     backgroundColor: 'rgb(121,150,128)',
+
   },
   developmentModeText: {
     marginBottom: 20,

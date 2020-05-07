@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Card, ListItem, Button, Icon } from 'react-native-elements';
 
 import { TextInput, View, TouchableHighlight, Text } from 'react-native';
@@ -18,12 +19,14 @@ export default function () {
           title='Search'
         />
       </View>
+
     </View>
   );
 }
 
 const styles = {
   input: {
+
     textAlign: 'left',
     borderColor: 'black',
     padding: 5,
@@ -43,5 +46,6 @@ const styles = {
   },
   but: {
     flex: 1,
+
   },
 };
