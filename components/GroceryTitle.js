@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { StyleSheet, View, ImageBackground, Text } from 'react-native';
 import * as Font from 'expo-font';
@@ -10,16 +9,16 @@ const getFonts = () =>
     'DancingScript-SemiBold': require('../assets/fonts/DancingScript-SemiBold.ttf'),
   });
 
-export default function Title() {
+export default function GroceryTitle() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   if (fontsLoaded) {
     return (
       <View style={styles.container}>
         <ImageBackground
-          source={require('../assets/images/header.jpg')}
+          source={require('../assets/images/shopping1.jpg')}
           style={styles.img}
         >
-          <Text style={styles.title}>Cook-it</Text>
+          <Text style={styles.title}>Grocery List</Text>
         </ImageBackground>
       </View>
     );
@@ -28,22 +27,19 @@ export default function Title() {
       <AppLoading startAsync={getFonts} onFinish={() => setFontsLoaded(true)} />
     );
   }
-
 }
 
 const styles = StyleSheet.create({
   img: {
-
     height: 125,
     width: '100%',
     flex: 3,
   },
   title: {
     textAlign: 'center',
-    fontSize: 60,
+    fontSize: 50,
     flex: 1,
     fontFamily: 'DancingScript-Bold',
-
   },
   container: {
     flex: 1,
