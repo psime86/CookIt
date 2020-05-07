@@ -1,10 +1,13 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
-
+import { FontAwesome5 } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import LogIn from '../screens/LogIn';
+import GroceryList from '../screens/GroceryList';
+import Favorites from '../screens/Favorites';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'LogIn';
@@ -18,19 +21,53 @@ export default function BottomTabNavigator({ navigation, route }) {
   return (
     <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
       <BottomTab.Screen
-        name="Home"
+        name='Home'
         component={HomeScreen}
         options={{
-          title: 'Get Started',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-code-working" />,
+          title: 'Home',
+          tabBarIcon: ({ focused }) => (
+            <FontAwesome5
+              focused={focused}
+              name='home'
+              size={24}
+              color='black'
+            />
+            // <TabBarIcon focused={focused} name='md-code-working' />
+          ),
         }}
       />
+
       <BottomTab.Screen
-        name="Links"
-        component={LinksScreen}
+        name='GroceryList'
+        component={GroceryList}
         options={{
-          title: 'Resources',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-book" />,
+          title: 'Grocery List',
+          tabBarIcon: ({ focused }) => (
+            <FontAwesome5
+              focused={focused}
+              name='list'
+              size={24}
+              color='black'
+            />
+            // <TabBarIcon focused={focused} name='md-book' />
+          ),
+        }}
+      />
+
+      <BottomTab.Screen
+        name='Favorites'
+        component={Favorites}
+        options={{
+          title: 'Favorites',
+          tabBarIcon: ({ focused }) => (
+            <MaterialIcons
+              focused={focused}
+              name='favorite'
+              size={24}
+              color='black'
+            />
+            // <TabBarIcon focused={focused} name='md-book' />
+          ),
         }}
       />
       <BottomTab.Screen
@@ -46,14 +83,23 @@ export default function BottomTabNavigator({ navigation, route }) {
 }
 
 function getHeaderTitle(route) {
-  const routeName = route.state?.routes[route.state.index]?.name ?? INITIAL_ROUTE_NAME;
+  const routeName =
+    route.state?.routes[route.state.index]?.name ?? INITIAL_ROUTE_NAME;
 
   switch (routeName) {
     case 'Home':
+<<<<<<< HEAD
       return 'How to get started';
     case 'Links':
       return 'Links to learn more';
     case 'LogIn':
       return 'Please log in';
+=======
+      return 'Home';
+    case 'GroceryList':
+      return 'Grocery List';
+    case 'Favorites':
+      return 'Favorites';
+>>>>>>> dd86308fa80ac152113552e4fef48e39d05bfbfc
   }
 }

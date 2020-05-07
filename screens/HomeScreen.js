@@ -20,23 +20,17 @@ import SearchInput from '../components/SearchInput';
 export default function HomeScreen() {
   return (
     <ScrollView>
-      <Title />
-      <SearchInput />
-      <View style={styles.container}>
-        <BodyCard />
-        <BodyCard />
+
+      <View>
+        <Title />
+        <SearchInput />
+        <View style={styles.container}>
+          <BodyCard />
+          <BodyCard />
+        </View>
       </View>
     </ScrollView>
-    // <ScrollView>
-    //   <Title />
-    //   <View style={styles.container}>
-    //     <SearchInput />
-    //   </View>
-    //   <View style={styles.container}>
-    //     <BodyCard />
-    //     <BodyCard />
-    //   </View>
-    // </ScrollView>
+
   );
 }
 
@@ -81,9 +75,10 @@ function handleHelpPress() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    padding: 20,
+
+    padding: 10,
+    backgroundColor: 'rgb(121,150,128)',
+
   },
   developmentModeText: {
     marginBottom: 20,
