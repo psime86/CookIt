@@ -66,7 +66,7 @@ export default function App() {
       <View style={styles.container}>
         <Image
           style={{ width: 200, height: 200, borderRadius: 50, marginVertical: 20 }}
-          source={require("../assets/images/robot-dev.png")} />
+          source={require("../assets/images/React.png")} />
         <TouchableOpacity style={styles.loginBtn} onPress={this.facebookLogIn}>
           <Text style={{ color: "#fff" }}>Login with Facebook</Text>
         </TouchableOpacity>
