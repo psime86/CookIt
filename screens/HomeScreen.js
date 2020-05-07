@@ -21,20 +21,42 @@ import API from "../utils/API"
 class HomeScreen extends React.Component {
 
     state= {
-        recipe: [],
+        recipes: [],
+        ingredients: [],
+        groceryList: [],
         searchTerm: "",
 
     }
-
+    // Search API for recipe based on query (searchTerm)
     searchForRecipe = (searchTerm) => {
 
         API.searchRecipe(searchTerm)
             .then(res => {
 
                 console.log(res.results);
-                this.setState({recipe: res})
+                this.setState({recipes: res.results})
             })
     }
+    // Search API for recipe Info based on recipe ID number
+    getRecipeInfo = (id) => {
+
+        API.getRecipeInfo(id)
+            .then(res => {
+                let list= [];
+                console.log(res.extendedIngredients)
+                this.setState({  ingredients: res.extendedIngredients})
+                this.state.ingredients.map(ingredient => {
+                    console.log(ingredient.name)
+                    list.push(ingredient.name)
+                })
+                this.setState({ groceryList: list })
+                console.log("after setting state...")
+                console.log(this.state.groceryList)
+                // Call another function that then sends this state to somewhere and populates the list? or send to backend and retrieve from database?
+            })
+    }
+
+
 
     // Handle form input change
 
@@ -65,6 +87,19 @@ class HomeScreen extends React.Component {
         
     }
 
+    handleViewBtn = (sourceLink) => {
+        console.log(sourceLink)
+        WebBrowser.openBrowserAsync(sourceLink)
+    }
+
+    handleIngredients = (id) => {
+        this.getRecipeInfo(id);
+    }
+
+    handleAddToFavorites = (id) => {
+        console.log(id)
+    }
+
     render () {
         return (
             <ScrollView>
@@ -73,24 +108,35 @@ class HomeScreen extends React.Component {
                 handleInputChange={this.handleInputChange}
                 handleFormSubmit={this.handleFormSubmit}
               />
-              <View style={styles.container}>
-                <BodyCard />
-                <BodyCard />
-              </View>
+
+                {this.state.recipes.length ? (
+                    <View style={styles.container}>
+                        {this.state.recipes.map(recipe => (
+                            <BodyCard
+                                image={recipe.image}
+                                id={recipe.id}
+                                title={recipe.title}
+                                readyIn={recipe.readyInMinutes}
+                                handleViewBtn={() => {this.handleViewBtn(recipe.sourceUrl)}}
+                                handleIngredients={() => {this.handleIngredients(recipe.id)}}
+                                handleAddToFavorites={() => {this.handleAddToFavorites(recipe.id)}}
+                            />
+                        ))}
+                    </View>
+                )
+                :
+                (
+                    <View style={styles.container}>
+                        <Text>
+                            Search for a recipe to get started!
+                        </Text>
+                    </View>
+                )}
+
             </ScrollView>
-            // <ScrollView>
-            //   <Title />
-            //   <View style={styles.container}>
-            //     <SearchInput />
-            //   </View>
-            //   <View style={styles.container}>
-            //     <BodyCard />
-            //     <BodyCard />
-            //   </View>
-            // </ScrollView>
-          );
+            
+        );
     }
-  
 }
 
 export default HomeScreen;

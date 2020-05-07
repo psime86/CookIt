@@ -22,7 +22,7 @@ export default {
             "url":`https://api.spoonacular.com/recipes/search?query=${searchTerm}&number=10&apiKey=${apiKey}`,
             "header":
                 {
-                "content-type": "application/octet-stream"
+                "content-type": "application/json"
                 }
         })
         .then(res => res.data)
@@ -60,17 +60,15 @@ export default {
     // Route to search for more recipe info (ingredients, etc.) by recipeId number
     getRecipeInfo: function(recipeId) {
         
-        const URL = `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${recipeId}/information`
-        const key=process.env.SPOONACULAR_API
-        
-        return axios ({
+        let apiKey = SPOONACULAR_API
+        console.log("ID: " + recipeId)
+
+        return axios({
             "method": "GET",
-            "url": URL,
+            "url": `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${apiKey}`,
             "headers": 
                 {
-                    "content-type": "application/octet-stream",
-                    "x-rapidapi-host":"spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
-                    "x-rapidapi-key": key,  
+                    "content-type": "application/json",
                 }
         })
         .then( res => res.data)

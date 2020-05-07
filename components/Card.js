@@ -1,17 +1,17 @@
 import React from 'react';
-import { View, Text, Image, ScrollView } from 'react-native';
+import { View, Text, Image, ScrollView, ShadowPropTypesIOS } from 'react-native';
 import { Card, ListItem, Button, Icon } from 'react-native-elements';
 
-export default function BodyCard() {
+export default function BodyCard(props) {
   return (
     <Card
-      title='Steak'
-      image={require('../assets/images/header.jpg')}
+      id={props.id}
+      title={props.title}
+      image={props.image}
       style={styles.card}
     >
       <Text style={{ marginBottom: 10 }}>
-        The idea with React Native Elements is more about component structure
-        than actual design.
+        Ready in {props.readyIn} minutes!
       </Text>
       <Button
         buttonStyle={{
@@ -21,6 +21,8 @@ export default function BodyCard() {
           marginBottom: 0,
         }}
         title='VIEW NOW'
+        id={props.id}
+        onPress={() => {props.handleViewBtn()}}
       />
       <Button
         buttonStyle={{
@@ -31,6 +33,8 @@ export default function BodyCard() {
           marginTop: 10,
         }}
         title='Add Ingridents to Shopping List '
+        id={props.id}
+        onPress={() => {props.handleIngredients()}}
       />
       <Button
         buttonStyle={{
@@ -41,6 +45,8 @@ export default function BodyCard() {
           marginTop: 10,
         }}
         title='Add to Favorite '
+        id={props.id}
+        onPress={()=> {props.handleAddToFavorites()}}
       />
     </Card>
   );
