@@ -18,6 +18,7 @@ import BodyCard from '../components/Card';
 import SearchInput from '../components/SearchInput';
 import API from "../utils/API"
 
+<<<<<<< HEAD
 class HomeScreen extends React.Component {
 
     state= {
@@ -137,6 +138,23 @@ class HomeScreen extends React.Component {
             
         );
     }
+=======
+export default function HomeScreen() {
+  return (
+    <ScrollView>
+
+      <View>
+        <Title />
+        <SearchInput />
+        <View style={styles.container}>
+          <BodyCard />
+          <BodyCard />
+        </View>
+      </View>
+    </ScrollView>
+
+  );
+>>>>>>> dd86308fa80ac152113552e4fef48e39d05bfbfc
 }
 
 export default HomeScreen;
@@ -182,9 +200,10 @@ function handleHelpPress() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    padding: 20,
+
+    padding: 10,
+    backgroundColor: 'rgb(121,150,128)',
+
   },
   developmentModeText: {
     marginBottom: 20,
