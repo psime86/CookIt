@@ -5,11 +5,12 @@ import { MaterialIcons } from '@expo/vector-icons';
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
+import LogIn from '../screens/LogIn';
 import GroceryList from '../screens/GroceryList';
 import Favorites from '../screens/Favorites';
 
 const BottomTab = createBottomTabNavigator();
-const INITIAL_ROUTE_NAME = 'Home';
+const INITIAL_ROUTE_NAME = 'LogIn';
 
 export default function BottomTabNavigator({ navigation, route }) {
   // Set the header title on the parent stack navigator depending on the
@@ -69,6 +70,14 @@ export default function BottomTabNavigator({ navigation, route }) {
           ),
         }}
       />
+      <BottomTab.Screen
+        name="LogIn"
+        component={LogIn}
+        options={{
+          title: 'Settings',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-cog" />,
+        }}
+        />
     </BottomTab.Navigator>
   );
 }
@@ -84,5 +93,7 @@ function getHeaderTitle(route) {
       return 'Grocery List';
     case 'Favorites':
       return 'Favorites';
+      case 'LogIn':
+      return 'Settings';
   }
 }

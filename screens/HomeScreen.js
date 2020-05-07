@@ -10,7 +10,7 @@ import {
   ScrollView,
   FlatList,
 } from 'react-native';
-// import { ScrollView } from 'react-native-gesture-handler';
+//import { ScrollView } from 'react-native-gesture-handler';
 
 import { MonoText } from '../components/StyledText';
 import Title from '../components/Title';
