@@ -8,7 +8,6 @@ export default function Form(props) {
   
 
   return (
-<<<<<<< HEAD
     <View>
       <TextInput onChangeText={text => props.handleInputChange(text)}  placeholder='Search Recipe' style={styles.input} />
       <Button onPress={props.handleFormSubmit} title='Search' />

@@ -40,10 +40,6 @@ export default function BodyCard(props) {
         title='VIEW NOW'
         id={props.id}
         onPress={() => {props.handleViewBtn()}}
-=======
-        title='View Recipe'
-
->>>>>>> dd86308fa80ac152113552e4fef48e39d05bfbfc
       />
       <Button
         buttonStyle={{
