@@ -10,29 +10,136 @@ import {
   ScrollView,
   FlatList,
 } from 'react-native';
-//import { ScrollView } from 'react-native-gesture-handler';
+// import { ScrollView } from 'react-native-gesture-handler';
 
 import { MonoText } from '../components/StyledText';
 import Title from '../components/Title';
 import BodyCard from '../components/Card';
 import SearchInput from '../components/SearchInput';
+import API from "../utils/API"
 
-export default function HomeScreen() {
-  return (
-    <ScrollView>
+class HomeScreen extends React.Component {
 
-      <View>
-        <Title />
-        <SearchInput />
-        <View style={styles.container}>
-          <BodyCard />
-          <BodyCard />
-        </View>
-      </View>
-    </ScrollView>
+    state= {
+        recipes: [],
+        ingredients: [],
+        groceryList: [],
+        searchTerm: "",
 
-  );
+    }
+    // Search API for recipe based on query (searchTerm)
+    searchForRecipe = (searchTerm) => {
+
+        API.searchRecipe(searchTerm)
+            .then(res => {
+
+                console.log(res.results);
+                this.setState({recipes: res.results})
+            })
+    }
+    // Search API for recipe Info based on recipe ID number
+    getRecipeInfo = (id) => {
+
+        API.getRecipeInfo(id)
+            .then(res => {
+                let list= [];
+                console.log(res.extendedIngredients)
+                this.setState({  ingredients: res.extendedIngredients})
+                this.state.ingredients.map(ingredient => {
+                    console.log(ingredient.name)
+                    list.push(ingredient.name)
+                })
+                this.setState({ groceryList: list })
+                console.log("after setting state...")
+                console.log(this.state.groceryList)
+                // Call another function that then sends this state to somewhere and populates the list? or send to backend and retrieve from database?
+            })
+    }
+
+
+
+    // Handle form input change
+
+    handleInputChange = event => {
+        // Assign the search change in input to a variable.
+        console.log(event)
+        let formInput = event
+        // Set the this.state.searchTerm to value of formInput.
+         this.setState({ searchTerm: formInput })
+         console.log(formInput)
+        
+        
+    }
+
+    // Handle form submit button
+
+    handleFormSubmit = event => {
+        event.preventDefault();
+        console.log(this.state.searchTerm)
+        // Call function "searchForRecipe" with argument of "searchTerm" after validation .
+        if (this.state.searchTerm === "") {
+            alert("please enter something to search")
+        } else {
+            this.searchForRecipe(this.state.searchTerm)
+            // Reset this.state.searchTerms after function.
+            this.setState({searchTerm:""})
+        }
+        
+    }
+
+    handleViewBtn = (sourceLink) => {
+        console.log(sourceLink)
+        WebBrowser.openBrowserAsync(sourceLink)
+    }
+
+    handleIngredients = (id) => {
+        this.getRecipeInfo(id);
+    }
+
+    handleAddToFavorites = (id) => {
+        console.log(id)
+    }
+
+    render () {
+        return (
+            <ScrollView>
+              <Title />
+              <SearchInput
+                handleInputChange={this.handleInputChange}
+                handleFormSubmit={this.handleFormSubmit}
+              />
+
+                {this.state.recipes.length ? (
+                    <View style={styles.container}>
+                        {this.state.recipes.map(recipe => (
+                            <BodyCard
+                                image={recipe.image}
+                                id={recipe.id}
+                                title={recipe.title}
+                                readyIn={recipe.readyInMinutes}
+                                handleViewBtn={() => {this.handleViewBtn(recipe.sourceUrl)}}
+                                handleIngredients={() => {this.handleIngredients(recipe.id)}}
+                                handleAddToFavorites={() => {this.handleAddToFavorites(recipe.id)}}
+                            />
+                        ))}
+                    </View>
+                )
+                :
+                (
+                    <View style={styles.container}>
+                        <Text>
+                            Search for a recipe to get started!
+                        </Text>
+                    </View>
+                )}
+
+            </ScrollView>
+            
+        );
+    }
 }
+
+export default HomeScreen;
 
 HomeScreen.navigationOptions = {
   header: null,
@@ -75,10 +182,9 @@ function handleHelpPress() {
 
 const styles = StyleSheet.create({
   container: {
-
-    padding: 10,
-    backgroundColor: 'rgb(121,150,128)',
-
+    flex: 1,
+    backgroundColor: '#fff',
+    padding: 20,
   },
   developmentModeText: {
     marginBottom: 20,
