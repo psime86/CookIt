@@ -38,18 +38,34 @@ class HomeScreen extends React.Component {
             })
     }
     // Search API for recipe Info based on recipe ID number
-    getRecipeInfo = (id) => {
+    getRecipeInfo = (id, title) => {
+      
+        // Save the name of the recipe to a variable
+        const recipeTitle = title;
+        // Create an empty array to later be defined
+        let shoppingList = [];
+        // Create an object to push the recipe name to and an empty array to push the ingredients too.
+        let recipeIngredientData= {
+          name: recipeTitle,
+          ingredients: []
+        };
 
+        // Run API call "getRecipeInfo"
         API.getRecipeInfo(id)
             .then(res => {
-                let list= [];
-                console.log(res.extendedIngredients)
+                
+                console.log(res)
+                // Save the returned ingredients to this.state.ingredients array to map through
                 this.setState({  ingredients: res.extendedIngredients})
                 this.state.ingredients.map(ingredient => {
                     console.log(ingredient.name)
-                    list.push(ingredient.name)
+                    // Add each ingredient to the ingredients array in the recipeIngredientData object
+                    recipeIngredientData.ingredients.push(ingredient.name)
+                    
                 })
-                this.setState({ groceryList: list })
+                // push the object into the shopping list
+                shoppingList.push(recipeIngredientData)
+                this.setState({ groceryList: shoppingList })
                 console.log("after setting state...")
                 console.log(this.state.groceryList)
                 // Call another function that then sends this state to somewhere and populates the list? or send to backend and retrieve from database?
@@ -92,8 +108,8 @@ class HomeScreen extends React.Component {
         WebBrowser.openBrowserAsync(sourceLink)
     }
 
-    handleIngredients = (id) => {
-        this.getRecipeInfo(id);
+    handleIngredients = (id, title) => {
+        this.getRecipeInfo(id, title);
     }
 
     handleAddToFavorites = (id) => {
@@ -118,7 +134,7 @@ class HomeScreen extends React.Component {
                                 title={recipe.title}
                                 readyIn={recipe.readyInMinutes}
                                 handleViewBtn={() => {this.handleViewBtn(recipe.sourceUrl)}}
-                                handleIngredients={() => {this.handleIngredients(recipe.id)}}
+                                handleIngredients={() => {this.handleIngredients(recipe.id, recipe.title)}}
                                 handleAddToFavorites={() => {this.handleAddToFavorites(recipe.id)}}
                             />
                         ))}
