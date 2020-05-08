@@ -74,9 +74,9 @@ export default {
         .then( res => res.data)
         .catch(err => console.log(err))
     },
-    // Route from app to send user info to backend to create user (user collection)
-    saveUserToDB: function(userId) {
-        return axios.post("/api/user/" + userId)
+    // Route from app to send user info to backend to check DB for id, if not then create user (user collection)
+    sendUserToDB: function(facebookUserData) {
+        return axios.post("/api/user", facebookUserData)
             .then(res => res.data)
             .catch(err => console.log(err))
     },
@@ -92,6 +92,13 @@ export default {
             .then(res => res.data)
             .catch(err => console.log(err))
     },
+    // Save recipe to DB (recipe collection) as object
+    saveRecipeShoppingListToDB: function(recipeListObject) {
+        return axios.post("/api/recipe", recipeListObject )
+            .then(res => res.data)
+            .catch(err => console.log(err))
+    },
+    
     // Delete recipe from recipe collection (can i use same route to delete from recipe collection and user recipe array? adding add. route just in case)
     deleteRecipe: function(recipeId) {
         return axios.delete("/api/recipe/" + id)

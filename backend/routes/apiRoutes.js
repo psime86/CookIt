@@ -4,12 +4,15 @@
 
 const express = require("express");
 const router = express.Router();
-const Book = require("../models/index")
+const db = require("../models/index")
 
 //======================================================
 // Routes
 //======================================================
 
-    // Define routes here excluding "/api"
+    router.post("/user", (req, res) => {
+        console.log("hit the post route! (user)");
+        console.log("fb user data: " + req.body.name )
+    })
 
 module.exports = router;

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import * as Facebook from 'expo-facebook';
+import API from "../utils/API"
+import { apisAreAvailable } from 'expo';
 
 
 
@@ -31,8 +33,21 @@ export default function App() {
           .then(data => {
             setLoggedinStatus(true);
             setUserData(data);
-            // My add. (bryan) to view response
-            console.log(this.state.userData)
+            // My add. (bryan) to view response and send data, new from this line down to line 
+            console.log(data);
+            // Create object to hold user data from FB
+            let facebookUserData = {
+              email : data.email,
+              name: data.name,
+              uidFB: data.id
+            }
+            // Send the data to the back end for validation to see if user exists, if not create user
+            API.sendUserToDB(facebookUserData)
+              .then(res => {
+                console.log("login res: " + res)
+              })
+              .catch(err => console.log(err))
+
           })
           .catch(e => console.log(e))
       } else {

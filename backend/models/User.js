@@ -11,14 +11,18 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     // May not need with FB login
-    username: { 
+    email: { 
       type: String,
        required: true
     },
     // May not need with FB login
-    password: {
+    name: {
        type: String, 
        required: true 
+    },
+    uidFB: {
+        type: String,
+        required: true
     },
     userCreated: {
         type: Date,
@@ -30,7 +34,13 @@ const userSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: "Recipe"
         }
-    ] 
+    ],
+    shoppingList: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "GroceryList"
+        }
+    ]
     
 });
 
