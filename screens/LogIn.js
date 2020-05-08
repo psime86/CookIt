@@ -31,6 +31,8 @@ export default function App() {
           .then(data => {
             setLoggedinStatus(true);
             setUserData(data);
+            // My add. (bryan) to view response
+            console.log(this.state.userData)
           })
           .catch(e => console.log(e))
       } else {
