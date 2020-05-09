@@ -21,7 +21,7 @@ const userSchema = new Schema({
        required: true 
     },
     uidFB: {
-        type: String,
+        type: Number,
         required: true
     },
     userCreated: {

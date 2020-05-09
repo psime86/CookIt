@@ -43,9 +43,7 @@ export default function App() {
             }
             // Send the data to the back end for validation to see if user exists, if not create user
             API.sendUserToDB(facebookUserData)
-              .then(res => {
-                console.log("login res: " + res)
-              })
+              
               .catch(err => console.log(err))
 
           })

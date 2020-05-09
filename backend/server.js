@@ -8,9 +8,10 @@ const routes = require("./routes/apiRoutes");
 const app = express();
 const PORT = process.env.PORT || 5000;
 const cors = require("cors");
+const bodyParser = require("body-parser");
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+// app.use(express.json());
 
 //=====================================================
 // Routes
@@ -27,6 +28,9 @@ app.use(express.json());
 
 app.use(cors())
 
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json())
+
 app.use("/api", routes);
 
 app.use((req, res, next) => {
@@ -37,9 +41,10 @@ app.use((req, res, next) => {
 // Connect to the Mongo DB
 //=====================================================
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/cookitDB", { useNewUrlParser: true, useUnifiedTopology: true });
+//mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/cookitDB", { useNewUrlParser: true, useUnifiedTopology: true });
 
-// DEV: mongodb://localhost/cookitDB
+// DEV:
+mongoose.connect( "mongodb://localhost/cookitDB", { useNewUrlParser: true, useUnifiedTopology: true });
 
 //=====================================================
 // Start the server

@@ -4,6 +4,7 @@
 
 import axios from "axios";
 import { SPOONACULAR_API } from 'react-native-dotenv'
+import React from 'react'
 
 // Define API functions inside exported module.
 
@@ -76,9 +77,35 @@ export default {
     },
     // Route from app to send user info to backend to check DB for id, if not then create user (user collection)
     sendUserToDB: function(facebookUserData) {
-        return axios.post("/api/user", facebookUserData)
-            .then(res => res.data)
-            .catch(err => console.log(err))
+        // return axios.post("/api/user", facebookUserData)
+        //     .then(res => res.data)
+        //     .catch(err => console.log(err))
+
+        // Alt way to write axios call with headers, data may need to be "params"
+        // return fetch({
+        //     "method": "POST",
+        //     "url": "/api/user",
+        //     "mode": "no-cors",
+        //     "body": facebookUserData,
+        //     "headers": {
+        //         'Content-Type': 'application/json',
+        //         'Accept': 'application/json'
+        //     }
+        // })
+        // .then( res => res.data)
+        // .catch(err => console.log(err))
+
+        return fetch("http://192.168.1.119:5000/api/user", {
+            method: "post",
+            mode: "no-cors",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(facebookUserData)
+        })
+        .then( res => res.data)
+        .catch(err => console.log(err.response))
     },
     // Send recipeId to user and push into recipe array (more code needed on back end)
     saveRecipeToUser: function(recipeId) {
