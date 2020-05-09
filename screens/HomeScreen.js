@@ -9,6 +9,7 @@ import {
   View,
   ScrollView,
   FlatList,
+  AsyncStorage,
 } from 'react-native';
 // import { ScrollView } from 'react-native-gesture-handler';
 
@@ -16,7 +17,8 @@ import { MonoText } from '../components/StyledText';
 import Title from '../components/Title';
 import BodyCard from '../components/Card';
 import SearchInput from '../components/SearchInput';
-import API from "../utils/API"
+import API from '../utils/API'
+
 
 class HomeScreen extends React.Component {
 
@@ -25,7 +27,68 @@ class HomeScreen extends React.Component {
         ingredients: [],
         groceryList: [],
         searchTerm: "",
+        UserName: "",
+        UserEmail: "",
+        UserUID: ""
 
+    }
+
+    componentDidMount () {
+
+      _getEmailAsyncData = async () => {
+        try {
+          let userEmailData = await AsyncStorage.getItem("email");
+          if (userEmailData !== null) {
+            console.log(userEmailData)
+            this.setState({ UserEmail: userEmailData })
+            console.log("setting UserEmail state to " + userEmailData)
+            console.log(this.state.UserEmail)
+          } else {
+            console.log("userEailData came back as 'null' from Async.")
+          }
+        } catch (error) {
+          console.log("error retrieving userEmailData from Async.");
+          console.log("getItem error: " + error)
+        }
+      }
+
+      _getNameAsyncData = async () => {
+        try {
+          let userNameData = await AsyncStorage.getItem("name");
+          if (userNameData !== null) {
+            console.log(userNameData)
+            this.setState({ UserName: userNameData })
+            console.log("setting UserEmail state to: " + userNameData)
+            console.log(this.state.UserName)
+          } else {
+            console.log("userNameData came back as 'null' from Async.")
+          }
+        } catch (error) {
+          console.log("error retrieving userNameData from Async.");
+          console.log("getItem error: " + error)
+        }
+      }
+
+      _getIdAsyncData = async () => {
+        try {
+          let userIdData = await AsyncStorage.getItem("uidFB");
+          if (userIdData !== null) {
+            console.log(userIdData)
+            this.setState({ UserUID: userIdData })
+            console.log("setting UserUID state to: " + userIdData)
+            console.log(this.state.UserUID)
+          } else {
+            console.log("userIdData came back as 'null' from Async.")
+          }
+        } catch (error) {
+          console.log("error retrieving userIdData from Async.");
+          console.log("getItem error: " + error)
+        }
+      }
+      _getEmailAsyncData()
+      _getNameAsyncData()
+      _getIdAsyncData()
+      
     }
     // Search API for recipe based on query (searchTerm)
     searchForRecipe = (searchTerm) => {
@@ -105,17 +168,32 @@ class HomeScreen extends React.Component {
         
     }
 
+    // View recipe now, view source. opposed to new element holding detailed data
     handleViewBtn = (sourceLink) => {
         console.log(sourceLink)
         WebBrowser.openBrowserAsync(sourceLink)
     }
 
+    // Get ingredients by searching api via id, save these ingredients to db
     handleIngredients = (id, title) => {
         this.getRecipeInfo(id, title);
     }
 
-    handleAddToFavorites = (id) => {
-        console.log(id)
+    // Add fav. recipe object to DB
+    handleAddToFavorites = (recipe) => {
+        console.log(recipe)
+        let userRefById = this.state.UserUID
+        const recipeObject = {
+          user: userRefById,
+          id: recipe.id,
+          title: recipe.title,
+          readyInMinutes: recipe.readyInMinutes,
+          servings: recipe.servings,
+          sourceUrl: recipe.sourceUrl
+        }
+        console.log(recipeObject.user)
+        API.saveRecipeToDB(recipeObject)
+
     }
 
     render () {
@@ -137,7 +215,7 @@ class HomeScreen extends React.Component {
                                 readyIn={recipe.readyInMinutes}
                                 handleViewBtn={() => {this.handleViewBtn(recipe.sourceUrl)}}
                                 handleIngredients={() => {this.handleIngredients(recipe.id, recipe.title)}}
-                                handleAddToFavorites={() => {this.handleAddToFavorites(recipe.id)}}
+                                handleAddToFavorites={() => {this.handleAddToFavorites(recipe)}}
                             />
                         ))}
                     </View>

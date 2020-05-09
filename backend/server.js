@@ -44,7 +44,7 @@ app.use((req, res, next) => {
 //mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/cookitDB", { useNewUrlParser: true, useUnifiedTopology: true });
 
 // DEV:
-mongoose.connect( "mongodb://localhost/cookitDB", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect( "mongodb://localhost/cookitDB", { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 //=====================================================
 // Start the server

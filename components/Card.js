@@ -7,7 +7,7 @@ export default function BodyCard(props) {
     <Card
       id={props.id}
       title={props.title}
-      //image={props.image}
+      
       style={styles.card}
     >
       <Image 

@@ -113,11 +113,24 @@ export default {
             .then(res => res.data)
             .catch(err => console.log(err))
     },
-    // Save recipe to DB (recipe collection) as object
+    // Save recipe to DB (recipe collection) as object (favorites)
     saveRecipeToDB: function(recipeObject) {
-        return axios.post("/api/recipe", recipeObject )
-            .then(res => res.data)
-            .catch(err => console.log(err))
+
+        // return axios.post("/api/recipe", recipeObject )
+        //     .then(res => res.data)
+        //     .catch(err => console.log(err))
+
+        return fetch("http://192.168.1.119:5000/api/recipe", {
+            method: "post",
+            mode: "no-cors",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(recipeObject)
+        })
+        .then( res => res.data)
+        .catch(err => console.log(err.response))
     },
     // Save recipe to DB (recipe collection) as object
     saveRecipeShoppingListToDB: function(recipeListObject) {

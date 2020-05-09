@@ -14,21 +14,14 @@ const recipeSchema = new Schema({
       type: String,
        required: true
     },
-    ingredients: {
-       type: String, 
-       required: true 
+    readyIn: {
+        type: Number
     },
-    description: {
-        type: String,
-        required: true
-    },
-    image: { 
-        type: String,
-        required: true
+    servings: {
+        type: Number,
     },
     link: {
         type: String,
-        required: true
     },
     recipeId: {
         type: Number,
