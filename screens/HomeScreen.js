@@ -39,7 +39,7 @@ class HomeScreen extends React.Component {
     }
     // Search API for recipe Info based on recipe ID number
     getRecipeInfo = (id, title) => {
-      
+
         // Save the name of the recipe to a variable
         const recipeTitle = title;
         // Create an empty array to later be defined
@@ -51,6 +51,8 @@ class HomeScreen extends React.Component {
         };
 
         // Run API call "getRecipeInfo"
+
+
         API.getRecipeInfo(id)
             .then(res => {
                 
@@ -127,8 +129,8 @@ class HomeScreen extends React.Component {
 
                 {this.state.recipes.length ? (
                     <View style={styles.container}>
-                        {this.state.recipes.map(recipe => (
-                            <BodyCard
+                        {this.state.recipes.map((recipe,i) => (
+                            <BodyCard key={i}
                                 image={recipe.image}
                                 id={recipe.id}
                                 title={recipe.title}

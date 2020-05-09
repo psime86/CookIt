@@ -43,7 +43,9 @@ export default function App() {
             }
             // Send the data to the back end for validation to see if user exists, if not create user
             API.sendUserToDB(facebookUserData)
-              
+               
+              // Need to somehow save user object to APP..... AsyncStorage? state / context? redirect to homeScreen and pass object?
+
               .catch(err => console.log(err))
 
           })
