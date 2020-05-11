@@ -25,7 +25,7 @@ class HomeScreen extends React.Component {
     state= {
         recipes: [],
         ingredients: [],
-        groceryList: [],
+        //groceryList: [],
         searchTerm: "",
         UserName: "",
         UserEmail: "",
@@ -101,21 +101,18 @@ class HomeScreen extends React.Component {
             })
     }
     // Search API for recipe Info based on recipe ID number
-    getRecipeInfo = (id, title) => {
+    getRecipeIngredientInfo = (id, title) => {
 
         // Save the name of the recipe to a variable
         const recipeTitle = title;
-        // Create an empty array to later be defined
-        let shoppingList = [];
-        // Create an object to push the recipe name to and an empty array to push the ingredients too.
+        // Create an object to push the user UID (this.state.UserUID) and recipe name to, and an empty array to push the ingredients too.
         let recipeIngredientData= {
+          user: this.state.UserUID,
           name: recipeTitle,
           ingredients: []
         };
 
         // Run API call "getRecipeInfo"
-
-
         API.getRecipeInfo(id)
             .then(res => {
                 
@@ -128,12 +125,10 @@ class HomeScreen extends React.Component {
                     recipeIngredientData.ingredients.push(ingredient.name)
                     
                 })
-                // push the object into the shopping list
-                shoppingList.push(recipeIngredientData)
-                this.setState({ groceryList: shoppingList })
-                console.log("after setting state...")
-                console.log(this.state.groceryList)
-                // Call another function that then sends this state to somewhere and populates the list? or send to backend and retrieve from database?
+                // Send "recipeIngredientData" to back end via API.js function "addRecipeGroceryListToDBAndUser"
+                API.addRecipeGroceryListToDBAndUser(recipeIngredientData)
+                
+                
             })
     }
 
@@ -176,7 +171,7 @@ class HomeScreen extends React.Component {
 
     // Get ingredients by searching api via id, save these ingredients to db
     handleIngredients = (id, title) => {
-        this.getRecipeInfo(id, title);
+        this.getRecipeIngredientInfo(id, title);
     }
 
     // Add fav. recipe object to DB
@@ -192,7 +187,7 @@ class HomeScreen extends React.Component {
           sourceUrl: recipe.sourceUrl
         }
         console.log(recipeObject.user)
-        API.saveRecipeToDB(recipeObject)
+        API.addFavRecipeToDBAndUser(recipeObject)
 
     }
 

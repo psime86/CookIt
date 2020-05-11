@@ -10,6 +10,7 @@ const db = require("../models/index")
 // Routes
 //======================================================
 
+    // Route to "/user", to Check if User collection holds any documents, if not create, else check User collection for document with matching UID, if no match found, create new User document.
     router.post("/user", (req, res) => {
         console.log("hit the USER post route!");
         console.log("fb user data: " + req.body.name )
@@ -163,14 +164,14 @@ const db = require("../models/index")
         // .catch(err => console.log(err))
 
     
-    // Create Recipe Object, and push id (DB id) to User "recipes" Array
+    // Route to "/recipe" to create Recipe document, match UserUID to User document in User collection and push id (DB id) to User document "recipes" array
     router.post("/recipe", (req, res) => {
         console.log("hit the RECIPE post route!");
         console.log(req.body)
         console.log(req.body.user)
         const userReference = req.body.user
         
-        // Create recipe here
+        // Create Recipe document here
         db.Recipe.create({
             "title": req.body.title,
             "readyIn": req.body.readyInMinutes,
@@ -179,9 +180,9 @@ const db = require("../models/index")
             "recipeId": req.body.id
         })
         .then(res => {
-            console.log("response from creating recipe document: " + res)
+            console.log("response from creating Recipe document: " + res)
 
-            // Assign recipe id (DB Id) to variable to use to push later on
+            // Assign Recipe "_id" (DB Id) to variable to use to push later on
             let dbRecipeId = res._id
 
             // Search for matching user to "req.body.user"
@@ -200,14 +201,14 @@ const db = require("../models/index")
                         let match = res._id
                         console.log("Match found!")
 
-                        // When a match is found, add the recipe id (DB Id) to recipes array
+                        // When a match is found, add the Recipe document id (DB Id) to "recipes" array
                         db.User.findOneAndUpdate
                         (
                             {"id": match},
                             {$push: { "recipes": dbRecipeId}}
                         ).then(res => {
                             console.log(res)
-                            console.log("recipe added to user")
+                            console.log("Recipe '_id' added to User 'recipes' array")
                             
                         }).catch(err => console.log(err))
                     } else {
@@ -217,6 +218,59 @@ const db = require("../models/index")
                 }
             })
         })          
+    })
+
+    // Route to "/grocery" to create GroceryList document, match UserUID to User document in User collection and push id (DB id) to User document "shoppingList" array
+    router.post("/grocery", (req, res) => {
+        console.log("hit the GROCERY post route!");
+        console.log(req.body)
+        console.log(req.body.user)
+        const userReference = req.body.user
+
+        // Create GroceryList document here
+        db.GroceryList.create({
+            "title": req.body.name,
+            "ingredients": req.body.ingredients
+        })
+        .then(res => {
+            console.log("response from creating GroceryList document: " + res)
+
+            // Assign GroceryList "_id" (DB Id) to variable to use to push later on
+            let dbGroceryListId = res._id
+
+            // Search for matching user to "req.body.user/ userReference" (UserUID)
+            db.User.find({})
+            
+            .then(res => {
+                
+                // Loop through the User documents and search for a matching "uidFB" (should match JSON.parse(userReference))
+                for (let i=0; i< res.length; i++) {
+
+                    console.log(res[i].uidFB)
+                    console.log(JSON.parse(userReference))
+
+                    // Use conditional statement to look for a match
+                    if (res[i].uidFB == JSON.parse(userReference)) {
+                        let match = res._id
+                        console.log("Match found!")
+
+                        // When a match is found, add the GroceryList document id (DB Id) to "shoppingList" array
+                        db.User.findOneAndUpdate
+                        (
+                            {"id": match},
+                            {$push: { "shoppingList": dbGroceryListId}}
+                        ).then(res => {
+                            console.log(res)
+                            console.log("GroceryList '_id' added to User 'shoppingList' array")
+                            
+                        }).catch(err => console.log(err))
+                    } else {
+                        // If no match is found... log
+                        console.log("no match to USER uid")
+                    }
+                }
+            })
+        }) 
     })
 
 module.exports = router;

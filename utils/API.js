@@ -23,6 +23,7 @@ export default {
             "url":`https://api.spoonacular.com/recipes/search?query=${searchTerm}&number=10&apiKey=${apiKey}`,
             "header":
                 {
+                "Accept": "application/json",
                 "content-type": "application/json"
                 }
         })
@@ -69,7 +70,8 @@ export default {
             "url": `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${apiKey}`,
             "headers": 
                 {
-                    "content-type": "application/json",
+                    "Accept": "application/json",
+                    "content-type": "application/json"
                 }
         })
         .then( res => res.data)
@@ -77,24 +79,7 @@ export default {
     },
     // Route from app to send user info to backend to check DB for id, if not then create user (user collection)
     sendUserToDB: function(facebookUserData) {
-        // return axios.post("/api/user", facebookUserData)
-        //     .then(res => res.data)
-        //     .catch(err => console.log(err))
-
-        // Alt way to write axios call with headers, data may need to be "params"
-        // return fetch({
-        //     "method": "POST",
-        //     "url": "/api/user",
-        //     "mode": "no-cors",
-        //     "body": facebookUserData,
-        //     "headers": {
-        //         'Content-Type': 'application/json',
-        //         'Accept': 'application/json'
-        //     }
-        // })
-        // .then( res => res.data)
-        // .catch(err => console.log(err))
-
+        
         return fetch("http://192.168.1.119:5000/api/user", {
             method: "post",
             mode: "no-cors",
@@ -104,17 +89,12 @@ export default {
             },
             body: JSON.stringify(facebookUserData)
         })
-        .then( res => res.data)
+        .then( res => res)
         .catch(err => console.log(err.response))
     },
-    // Send recipeId to user and push into recipe array (more code needed on back end)
-    saveRecipeToUser: function(recipeId) {
-        return axios.post("/api/user/" + recipeId)
-            .then(res => res.data)
-            .catch(err => console.log(err))
-    },
+    
     // Save recipe to DB (recipe collection) as object (favorites)
-    saveRecipeToDB: function(recipeObject) {
+    addFavRecipeToDBAndUser: function(recipeObject) {
 
         // return axios.post("/api/recipe", recipeObject )
         //     .then(res => res.data)
@@ -129,14 +109,23 @@ export default {
             },
             body: JSON.stringify(recipeObject)
         })
-        .then( res => res.data)
+        .then( res => res)
         .catch(err => console.log(err.response))
     },
     // Save recipe to DB (recipe collection) as object
-    saveRecipeShoppingListToDB: function(recipeListObject) {
-        return axios.post("/api/recipe", recipeListObject )
-            .then(res => res.data)
-            .catch(err => console.log(err))
+    addRecipeGroceryListToDBAndUser: function(groceryListObject) {
+
+        return fetch("http://192.168.1.119:5000/api/grocery", {
+            method: "post",
+            mode: "no-cors",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(groceryListObject)
+        })
+        .then( res => res)
+        .catch(err => console.log(err.response))
     },
     
     // Delete recipe from recipe collection (can i use same route to delete from recipe collection and user recipe array? adding add. route just in case)
