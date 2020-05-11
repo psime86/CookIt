@@ -25,7 +25,6 @@ class HomeScreen extends React.Component {
     state= {
         recipes: [],
         ingredients: [],
-        //groceryList: [],
         searchTerm: "",
         UserName: "",
         UserEmail: "",
@@ -33,8 +32,12 @@ class HomeScreen extends React.Component {
 
     }
 
+    // Grab Async data on page load with "componentDidMount"
     componentDidMount () {
 
+      //*  Had to split "_get_____AsyncData" functions into 3 functions to be able to set a different state in each (originally was an object containing all 3 key/values, setting a state object called "USER")
+      
+      // Get email and set state of "UserEmail"
       _getEmailAsyncData = async () => {
         try {
           let userEmailData = await AsyncStorage.getItem("email");
@@ -52,6 +55,7 @@ class HomeScreen extends React.Component {
         }
       }
 
+      // Get name and set state of "UserName"
       _getNameAsyncData = async () => {
         try {
           let userNameData = await AsyncStorage.getItem("name");
@@ -69,6 +73,7 @@ class HomeScreen extends React.Component {
         }
       }
 
+      // Get id (fb UID) and set state of "UserUID"
       _getIdAsyncData = async () => {
         try {
           let userIdData = await AsyncStorage.getItem("uidFB");
@@ -85,14 +90,18 @@ class HomeScreen extends React.Component {
           console.log("getItem error: " + error)
         }
       }
+
+      // Call all three functions
       _getEmailAsyncData()
       _getNameAsyncData()
       _getIdAsyncData()
       
     }
-    // Search API for recipe based on query (searchTerm)
+
+    // Search Spoonacular API for recipe based on query (searchTerm)
     searchForRecipe = (searchTerm) => {
 
+        // Call API.js function "searchRecipe" to query by this.state.searchTerm
         API.searchRecipe(searchTerm)
             .then(res => {
 
@@ -100,6 +109,7 @@ class HomeScreen extends React.Component {
                 this.setState({recipes: res.results})
             })
     }
+
     // Search API for recipe Info based on recipe ID number
     getRecipeIngredientInfo = (id, title) => {
 
@@ -112,7 +122,7 @@ class HomeScreen extends React.Component {
           ingredients: []
         };
 
-        // Run API call "getRecipeInfo"
+        // Call API.js function "getRecipeInfo"
         API.getRecipeInfo(id)
             .then(res => {
                 
@@ -125,17 +135,14 @@ class HomeScreen extends React.Component {
                     recipeIngredientData.ingredients.push(ingredient.name)
                     
                 })
-                // Send "recipeIngredientData" to back end via API.js function "addRecipeGroceryListToDBAndUser"
+                // Call API.js function "addRecipeGroceryListToDBAndUser" to send "recipeIngredientData" to backend
                 API.addRecipeGroceryListToDBAndUser(recipeIngredientData)
                 
                 
             })
     }
 
-
-
     // Handle form input change
-
     handleInputChange = event => {
         // Assign the search change in input to a variable.
         console.log(event)
@@ -148,7 +155,6 @@ class HomeScreen extends React.Component {
     }
 
     // Handle form submit button
-
     handleFormSubmit = event => {
         event.preventDefault();
         console.log(this.state.searchTerm)
@@ -187,10 +193,12 @@ class HomeScreen extends React.Component {
           sourceUrl: recipe.sourceUrl
         }
         console.log(recipeObject.user)
+        // Call API.js function "addFavRecipeToDBAndUser" to send "recipeObject" to backend
         API.addFavRecipeToDBAndUser(recipeObject)
 
     }
 
+    // Render to page
     render () {
         return (
             <ScrollView>
