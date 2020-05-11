@@ -97,7 +97,64 @@ export default {
         .catch(err => console.log(err.response))
     },
     
+    // Need to add route to retrieve User document "shoppingList" array of objects 
 
+    findUserByUID: function() {
+        console.log("made it to API")
+
+        // With FETCH
+
+    //    return fetch("http://192.168.1.119:5000/api/findUser", {
+    //         method: "get",
+    //         mode: "no-cors",
+    //         headers: {
+    //             "Accept": "application/json",
+    //             "Content-Type": "application/json"
+    //         },
+    //         // body: JSON.stringify(UserUID)
+    //     })
+    //      .then( res => res)
+    //     .catch(err => console.log(err.response))
+
+
+        // With AXIOS
+
+        return axios({
+            "method": "GET",
+            "url": "http://192.168.1.119:5000/api/findUser",
+            "headers": 
+                {
+                    "Accept": "application/json",
+                    "content-type": "application/json"
+                }
+        })
+        .then( res => res.data)
+        .catch(err => console.log(err.response))
+
+    },
+
+
+
+    findListById: function(itemId) {
+        return axios({
+            "method": "get",
+            "url": "http://192.168.1.119:5000/api/findList/" + itemId,
+            "headers": {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            
+        })
+        .then( res => res.data[0])
+        .catch(err => console.log(err.response))
+    },
+
+
+
+
+    // Need to add route to retrieve User document "recipe" array of objects 
+
+    // Then...
 
     // Need to add route to delete fav recipe (remove specific User "recipes" object)
 

@@ -22,7 +22,7 @@ import API from '../utils/API'
 
 class HomeScreen extends React.Component {
 
-    state= {
+    state = {
         recipes: [],
         ingredients: [],
         searchTerm: "",

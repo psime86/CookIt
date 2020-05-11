@@ -273,4 +273,54 @@ const db = require("../models/index")
         }) 
     })
 
+    router.get("/findUser", (req, res) => {
+        console.log("hit the 'findUser' get route!");
+        // console.log("params: " + req.params.UserUID)
+        // const userReference = req.params.UserUID
+
+        return db.User.find({})
+        .then(data =>  res.json(data) )
+        .catch(err => console.log(err))
+            
+    //         // Loop through the User documents and search for a matching "uidFB" (should match JSON.parse(userReference))
+    //         for (let i=0; i< res.length; i++) {
+
+    //             console.log(res[i].uidFB)
+    //             console.log(JSON.parse(userReference))
+
+    //             // Use conditional statement to look for a match
+    //             if (res[i].uidFB == JSON.parse(userReference)) {
+    //                 let match = res._id
+    //                 console.log("Match found!")
+    //                 db.User.findOne
+    //                 (
+    //                     {"id": match}
+    //                 )
+    //                 .then(res => {
+    //                     console.log( res)
+                        
+    //                 })
+    //             } else {
+    //                 // If no match is found... log
+    //                  console.log("no match to USER uid")
+    //             }
+    //         }
+
+    //    })
+    //     .catch(err => console.log(err))
+    })
+
+    router.get("/findList/:itemId", (req, res) => {
+        console.log("hit the 'findList' get route!");
+        console.log(req.params.itemId)
+        return db.GroceryList.find(
+            {_id: req.params.itemId}
+        )
+        .then(data => {
+            console.log(data)
+            res.json(data)
+        })
+        .catch(err => console.log(err))
+    })
+
 module.exports = router;

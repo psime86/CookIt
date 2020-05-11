@@ -4,11 +4,11 @@ import { Card, CheckBox, Button } from 'react-native-elements';
 // import { TextInput } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';
 
-export default function GroceryCard() {
+export default function GroceryCard(props) {
   return (
-    <Card title='Steak' containerStyle={{ borderRadius: 10 }}>
+    <Card title={props.title} containerStyle={{ borderRadius: 10 }}>
       <View>
-        {/*List item */}
+        <Text>{props.list}</Text>
         <View>
           <TouchableOpacity>
             <View style={{ flex: 1, flexDirection: 'row' }}>
