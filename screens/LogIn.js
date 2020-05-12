@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import * as Facebook from 'expo-facebook';
+import API from '../utils/API'
+import { apisAreAvailable } from 'expo';
+import { AsyncStorage } from 'react-native';
 
 
 
@@ -31,6 +34,39 @@ export default function App() {
           .then(data => {
             setLoggedinStatus(true);
             setUserData(data);
+            // My add. (bryan) to view response and send data, new from this line down to line 
+            console.log(data);
+            // Create object to hold user data from FB
+            let facebookUserData = {
+              email : data.email,
+              name: data.name,
+              uidFB: data.id
+            }
+
+            // use AsyncStorage to save USER data to use throughout the application.
+
+            _storeData = async (key, value) => {
+              try {
+                  await AsyncStorage.setItem(key, JSON.stringify(value));
+                  console.log("data: " + key + " added to asyncStorage!")
+              } catch (error) {
+                console.log("error setting item to AsyncStorage")
+                console.log("setItem error: " + error)
+              }
+            };
+            _storeData("email", data.email);
+            _storeData("name", data.name);
+            _storeData("uidFB", data.id);
+
+            
+
+            // Send the data to the back end for validation to see if user exists, if not create user
+            API.sendUserToDB(facebookUserData)
+               
+              // Need to somehow save user object to APP..... AsyncStorage? state / context? redirect to homeScreen and pass object?
+
+              .catch(err => console.log(err))
+
           })
           .catch(e => console.log(e))
       } else {
@@ -45,6 +81,18 @@ export default function App() {
     setLoggedinStatus(false);
     setUserData(null);
     setImageLoadStatus(false);
+    _removeUserID = async (key) => {
+      try {
+        await AsyncStorage.removeItem(key)
+        console.log("removed data form async")
+      } catch (error) {
+        console.log("removeItem error: " + error)
+      }
+    }
+    _removeUserID("email");
+    _removeUserID("name");
+    _removeUserID("uidFB");
+    
   }
 
   return (

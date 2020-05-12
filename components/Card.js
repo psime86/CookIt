@@ -1,20 +1,20 @@
 import React from 'react';
+import { View, Text, Image, ScrollView, ShadowPropTypesIOS } from 'react-native';
+import { Card, ListItem, Button, Icon } from 'react-native-elements';
 
-import { Text } from 'react-native';
-import { Card, Button } from 'react-native-elements';
-
-export default function BodyCard() {
+export default function BodyCard(props) {
   return (
     <Card
-      title='Steak'
-
-      image={require('../assets/images/favorite6.jpeg')}
-      containerStyle={{ borderRadius: 10 }}
-
+      id={props.id}
+      title={props.title}
+      
+      style={styles.card}
     >
+      <Image 
+        image={props.image}
+      />
       <Text style={{ marginBottom: 10 }}>
-        The idea with React Native Elements is more about component structure
-        than actual design.
+        Ready in {props.readyIn} minutes!
       </Text>
       <Button
         buttonStyle={{
@@ -22,11 +22,10 @@ export default function BodyCard() {
           marginLeft: 0,
           marginRight: 0,
           marginBottom: 0,
-
-          backgroundColor: 'rgb(92,112,143)',
         }}
-        title='View Recipe'
-
+        title='VIEW NOW'
+        id={props.id}
+        onPress={() => {props.handleViewBtn()}}
       />
       <Button
         buttonStyle={{
@@ -35,11 +34,10 @@ export default function BodyCard() {
           marginRight: 0,
           marginBottom: 0,
           marginTop: 10,
-
-          backgroundColor: 'rgb(92,112,143)',
         }}
-        title='Add Ingredients to Grocery List '
-
+        title='Add Ingridents to Shopping List '
+        id={props.id}
+        onPress={() => {props.handleIngredients()}}
       />
       <Button
         buttonStyle={{
@@ -48,14 +46,21 @@ export default function BodyCard() {
           marginRight: 0,
           marginBottom: 0,
           marginTop: 10,
-
-          backgroundColor: 'rgb(92,112,143)',
         }}
-        title='Add to Favorites'
-
+        title='Add to Favorite '
+        id={props.id}
+        onPress={()=> {props.handleAddToFavorites()}}
       />
     </Card>
   );
 }
+
+const styles = {
+  card: {
+    flex: 1,
+    marginTop: 20,
+    color: 'rgb(121,150,128)',
+  },
+};
 
 
