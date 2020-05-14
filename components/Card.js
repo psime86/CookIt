@@ -10,9 +10,7 @@ export default function BodyCard(props) {
       
       style={styles.card}
     >
-      <Image 
-        image={props.image}
-      />
+      
       <Text style={{ marginBottom: 10 }}>
         Ready in {props.readyIn} minutes!
       </Text>

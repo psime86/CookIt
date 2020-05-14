@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, FlatList } from 'react-native';
 import { Card, CheckBox, Button } from 'react-native-elements';
 // import { TextInput } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';
 
+
+
 export default function GroceryCard(props) {
+  
   return (
     <Card title={props.title} containerStyle={{ borderRadius: 10 }}>
       <View>
@@ -13,6 +16,13 @@ export default function GroceryCard(props) {
           <TouchableOpacity>
             <View style={{ flex: 1, flexDirection: 'row' }}>
               <CheckBox />
+              {/* <FlatList
+                data={ingredient}
+                renderItem={({item}) => <Text>{item}</Text> }
+                keyExtractor={(item, index) => index.toString()}
+              /> */}
+
+             
               <Text style={styles.text}>Apple</Text>
               <AntDesign
                 name='delete'
@@ -55,6 +65,7 @@ export default function GroceryCard(props) {
             backgroundColor: 'rgb(242,127,118)',
           }}
           title='Delete List'
+          onPress={()=> {props.deleteFromShoppingList()}}
         />
       </View>
     </Card>

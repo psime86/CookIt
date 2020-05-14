@@ -2,16 +2,17 @@ import React from 'react';
 import { Text } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 
-export default function FavoriteCard() {
+export default function FavoriteCard(props) {
   return (
     <Card
-      title='Steak'
-      image={require('../assets/images/favorite6.jpeg')}
-      containerStyle={{ borderRadius: 10 }}
+      id={props.id}
+      title={props.title}
+      
+      style={styles.card}
     >
+      
       <Text style={{ marginBottom: 10 }}>
-        The idea with React Native Elements is more about component structure
-        than actual design.
+        Ready in {props.readyIn} minutes!
       </Text>
       <Button
         buttonStyle={{
@@ -22,6 +23,8 @@ export default function FavoriteCard() {
           backgroundColor: 'rgb(92,112,143)',
         }}
         title='View Recipe'
+        id={props.id}
+        onPress={() => {props.handleViewBtn()}}
       />
       <Button
         buttonStyle={{
@@ -33,6 +36,8 @@ export default function FavoriteCard() {
           backgroundColor: 'rgb(92,112,143)',
         }}
         title='Add Ingredients to Grocery List '
+        id={props.id}
+        onPress={() => {props.handleIngredients()}}
       />
       <Button
         buttonStyle={{
@@ -44,7 +49,16 @@ export default function FavoriteCard() {
           backgroundColor: 'rgb(242,127,118)',
         }}
         title='Delete '
+        onPress={()=> {props.deleteFromFavorites()}}
       />
     </Card>
   );
 }
+
+const styles = {
+  card: {
+    flex: 1,
+    marginTop: 20,
+    color: 'rgb(121,150,128)',
+  },
+};
