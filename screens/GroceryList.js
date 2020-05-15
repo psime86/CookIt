@@ -1,6 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
-import { View, ScrollView, AsyncStorage, Text } from 'react-native';
+import { View, ScrollView, AsyncStorage, Text, FlatList, Button } from 'react-native';
 // import { ScrollView } from 'react-native-gesture-handler';
 import GroceryTitle from '../components/GroceryTitle';
 import GroceryCard from '../components/GroceryCard';
@@ -10,115 +10,109 @@ class GroceryList extends React.Component {
 
   state = {
     // define state component here
-    UserUID: "",
+    UserDBId: "",
     shoppingList: ""
   }
 
-  // define functions here
-
-  // "componentDidMount" here to grab Async User data and all User document "shoppingList" objects to map through later 
+  //===========================================================================================
+  // Component did Mount
+  //===========================================================================================
 
   componentDidMount() {
     
-    // Get id (fb UID) and set state of "UserUID"
+    // define function to get databaseId from Async
     _getIdAsyncData = async () => {
       try {
-        let userIdData = await AsyncStorage.getItem("uidFB");
-        if (userIdData !== null) {
-          console.log(userIdData)
-          this.setState({ UserUID: userIdData })
-          console.log("setting UserUID state to: " + userIdData)
-          console.log(this.state.UserUID)
+        let databaseId = await AsyncStorage.getItem("databaseId");
+        if (databaseId !== null) {
+          console.log(databaseId)
+          this.setState({ UserDBId: JSON.parse(databaseId)})
+          console.log("setting UserUID state to: " + databaseId)
+          console.log(this.state.UserDBId)
         } else {
-          console.log("userIdData came back as 'null' from Async.")
+          console.log("databaseId came back as 'null' from Async.")
         }
       } catch (error) {
-        console.log("error retrieving userIdData from Async.");
+        console.log("error retrieving databaseId from Async.");
         console.log("getItem error: " + error)
       }
     }
-
-    // Call function to retrieve UID from Async
+    // Call function to retrieve databaseId from Async
     _getIdAsyncData()
       .then( () => {
-        console.log("made it this far")
+        console.log("after retrieving databaseId... call next function 'getUserDataFromDB()'")
         this.getUserDataFromDB()
       })
-
-    
-    
   }
     
+  //======================================================================================
+  // Get User data from DB.
+  //======================================================================================
 
   getUserDataFromDB = () => {
-    
+    //this.setState({getUser: true})
     // Grab User "shoppingList"
-    API.findUserByUID()
+    API.findUser(this.state.UserDBId)
       .then(res => {
-        console.log("made it inside next function")
+        console.log("after retrieveing user DB data..... log response on front end")
         console.log(res);
-        
-        for (let i=0; i < res.length; i++) {
-
-          if (res[i].uidFB == JSON.parse(this.state.UserUID)) {
-            console.log("match found")
-            console.log(res[i])
-            this.loopShoppingList(res[i].shoppingList)
-
-            // res[i].shoppingList.map( itemId => {
-            //   console.log(itemId)
-            //   API.findListById(itemId)
-            //     .then(res => {
-            //       console.log("now return list item")
-            //       console.log(res)
-            //       shoppingListArray.push(res)
-            //     })
-            // })
-            
-            //   console.log("after pushing to shopping list array and log")
-            //   console.log(shoppingListArray)
-            
-            
-          }
-        }
-        //this.setState({})
+        console.log(res.shoppingList)
+        this.setState({ shoppingList: res.shoppingList})
+        console.log("confirming state of shoppingList after setting")
+        console.log(this.state.shoppingList)
       })
+      .catch(err => console.log(err))
   }
 
-  loopShoppingList = (shoppingListIdArray) => {
-      let shoppingListArray = [];
+  // Delete recipe function goes here
+  //===================================================================================================================================
+  // Delete GroceryList document from GroceryList collection by '_id', then remove from User document "shoppingList" array by '_id"
+  //===================================================================================================================================
 
-      shoppingListIdArray.map( eachId => {
-        console.log(eachId)
-              API.findListById(eachId)
-                .then(res => {
-                  console.log("now return list item")
-                  console.log(res)
-                  shoppingListArray.push(res)
-                  this.setState({ shoppingList: shoppingListArray })
-                  console.log("state of shoppingList =")
-                  console.log(this.state.shoppingList)
-                })
+  deleteFromShoppingList = (id) => {
+    console.log(id)
+    let deleteDataObject = {
+      user: this.state.UserDBId,
+      groceryListDBId: id
+    }
+    API.deleteGroceryListFromUser(deleteDataObject)
+      .then( res => {
+        this.setState({ shoppingList: this.state.shoppingList.filter(list => list._id !== id)})
+        console.log("Below should be the returned data from the delete route")
+        console.log(res)
       })
-      
-  }
-  
 
+  }
+
+
+  // Delete specific ingredients?
+
+  //==================================================================================================
+  // Render to screen.
+  //==================================================================================================
 
   render() {
     return (
+      // <View>
+      //   <FlatList
+      //           data={this.state.shoppingList}
+      //           renderItem={({item}) => <Text>{item.ingredients}</Text> }
+      //           keyExtractor={(item, index) => index.toString()}
+      //         />
+      // </View>
       <ScrollView>
       <View style={{ flex: 1, flexDirection: 'column' }}>
         <GroceryTitle style={{ flex: 2, height: 50 }} />
       </View>
-
       {this.state.shoppingList.length ? 
       (
         <View style={styles.container}>
+          <Button title={"refresh"} onPress={() => {this.getUserDataFromDB()}} />
           {this.state.shoppingList.map((listObject, i) => (
             <GroceryCard key={i}
               title={listObject.title}
-              list={listObject.ingredients} // Map through the ingredients array????
+              list={listObject.ingredients}
+              deleteFromShoppingList={() => {this.deleteFromShoppingList(listObject._id)}}
             />
           ))}
         </View>
@@ -127,12 +121,12 @@ class GroceryList extends React.Component {
       (
         <View style={styles.container}>
           <Text>No recipes in list</Text >
+          <Button title={"check again"} onPress={() => {this.getUserDataFromDB()}} />
         </View>
       )}
 
       {/* <View style={styles.container}>
         <GroceryCard />
-        
       </View> */}
     </ScrollView>
     )
@@ -140,20 +134,6 @@ class GroceryList extends React.Component {
 }
 
 export default GroceryList;
-
-// export default function GroceryList() {
-//   return (
-//     <ScrollView>
-//       <View style={{ flex: 1, flexDirection: 'column' }}>
-//         <GroceryTitle style={{ flex: 2, height: 50 }} />
-//       </View>
-//       <View style={styles.container}>
-//         <GroceryCard />
-//         <GroceryCard />
-//       </View>
-//     </ScrollView>
-//   );
-// }
 
 const styles = {
   container: {

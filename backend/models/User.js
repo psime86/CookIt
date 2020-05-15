@@ -10,6 +10,7 @@ const Schema = mongoose.Schema;
 //======================================================
 
 const userSchema = new Schema({
+    
     // May not need with FB login
     email: { 
       type: String,

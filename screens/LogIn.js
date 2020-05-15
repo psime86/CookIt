@@ -48,7 +48,7 @@ export default function App() {
             _storeData = async (key, value) => {
               try {
                   await AsyncStorage.setItem(key, JSON.stringify(value));
-                  console.log("data: " + key + " added to asyncStorage!")
+                  console.log("data: " + key + " ...added to asyncStorage!")
               } catch (error) {
                 console.log("error setting item to AsyncStorage")
                 console.log("setItem error: " + error)
@@ -62,10 +62,18 @@ export default function App() {
 
             // Send the data to the back end for validation to see if user exists, if not create user
             API.sendUserToDB(facebookUserData)
+            .then(data => {
+              console.log("on the login page")
+              console.log(data)
+              // Save the returned database id to "databaseId" in async storage
+              _storeData("databaseId", data);
+            })
+            .catch(err => console.log(err))
+              
                
               // Need to somehow save user object to APP..... AsyncStorage? state / context? redirect to homeScreen and pass object?
 
-              .catch(err => console.log(err))
+            
 
           })
           .catch(e => console.log(e))
@@ -92,6 +100,7 @@ export default function App() {
     _removeUserID("email");
     _removeUserID("name");
     _removeUserID("uidFB");
+    _removeUserID("databaseId");
     
   }
 

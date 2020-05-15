@@ -9,7 +9,11 @@ import React from 'react'
 // Define API functions inside exported module.
 
 export default {
-    // Route to get recipe from Spoonacular API by "searchTerm" (query)
+
+    //=================================================================================================
+    // Route to get recipe from Spoonacular API by "searchTerm" (query).
+    //=================================================================================================
+
     searchRecipe: function(searchTerm) {
 
         // Define the api key and apiURL
@@ -20,7 +24,7 @@ export default {
         // Search spoonacular for recipe "FROM SPOONACULAR API (NOT RAPID API)"
         return axios({
             "method":"GET",
-            "url":`https://api.spoonacular.com/recipes/search?query=${searchTerm}&number=10&apiKey=${apiKey}`,
+            "url":`https://api.spoonacular.com/recipes/search?query=${searchTerm}&number=20&apiKey=${apiKey}`,
             "header":
                 {
                 "Accept": "application/json",
@@ -31,7 +35,10 @@ export default {
         .catch(err => console.log(err))
     },
 
-    // Route to search Spoonacular API for more recipe info (ingredients, etc.) by recipeId number
+    //=================================================================================================
+    // Route to search Spoonacular API for more recipe info (ingredients, etc.) by recipeId number.
+    //=================================================================================================
+
     getRecipeInfo: function(recipeId) {
         
         let apiKey = SPOONACULAR_API
@@ -50,133 +57,120 @@ export default {
         .catch(err => console.log(err))
     },
 
-    // Route from app to send user info to backend to check DB for id, if not then create user (user collection)
+    //==========================================================================================================================
+    // Send user data to backend, If no User documents, or not found, create User document and return '_id' for async storage.
+    //==========================================================================================================================
+
     sendUserToDB: function(facebookUserData) {
         
-        return fetch("http://192.168.1.119:5000/api/user", {
-            method: "post",
-            mode: "no-cors",
-            headers: {
+        return axios ({
+            "method": "POST",
+            "url": "http://192.168.1.119:5000/api/user",
+            "headers": {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(facebookUserData)
+            "data": facebookUserData
+            
         })
-        .then( res => res)
+        .then( res => res.data )
         .catch(err => console.log(err.response))
     },
     
-    // Route from app to backend to create "Recipe" document (users fav. recipes) in DB (recipe collection)
+    //=============================================================================================
+    // Create Recipe document and add '_id' to User document "recipes" array.
+    //=============================================================================================
+
     addFavRecipeToDBAndUser: function(recipeObject) {
 
-        return fetch("http://192.168.1.119:5000/api/recipe", {
-            method: "post",
-            mode: "no-cors",
-            headers: {
+        return axios({
+            "method": "POST",
+            "url": "http://192.168.1.119:5000/api/recipe",
+            "headers": {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(recipeObject)
+            "data": recipeObject
         })
-        .then( res => res)
+        .then( res => res.data)
         .catch(err => console.log(err.response))
     },
-    // Route form app to backend to create "GroceryList" document in DB (GroceryList collection)
+
+    //============================================================================================
+    // Create GroceryList document and add '_id" to User document "shoppingList" array.
+    //============================================================================================
+
     addRecipeGroceryListToDBAndUser: function(groceryListObject) {
 
-        return fetch("http://192.168.1.119:5000/api/grocery", {
-            method: "post",
-            mode: "no-cors",
-            headers: {
+        return axios({
+            "method": "POST",
+            "url": "http://192.168.1.119:5000/api/grocery",
+            "headers": {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(groceryListObject)
+            "data": groceryListObject
         })
-        .then( res => res)
+        .then( res => res.data)
         .catch(err => console.log(err.response))
     },
     
-    // Need to add route to retrieve User document "shoppingList" array of objects 
+    //========================================================================================
+    // Find User document by DB '_id".
+    //========================================================================================
 
-    findUserByUID: function() {
+    findUser: function(id) {
         console.log("made it to API")
-
-        // With FETCH
-
-    //    return fetch("http://192.168.1.119:5000/api/findUser", {
-    //         method: "get",
-    //         mode: "no-cors",
-    //         headers: {
-    //             "Accept": "application/json",
-    //             "Content-Type": "application/json"
-    //         },
-    //         // body: JSON.stringify(UserUID)
-    //     })
-    //      .then( res => res)
-    //     .catch(err => console.log(err.response))
-
-
-        // With AXIOS
 
         return axios({
             "method": "GET",
-            "url": "http://192.168.1.119:5000/api/findUser",
+            "url": "http://192.168.1.119:5000/api/findUser/" + id,
             "headers": 
                 {
                     "Accept": "application/json",
                     "content-type": "application/json"
                 }
         })
-        .then( res => res.data)
-        .catch(err => console.log(err.response))
-
-    },
-
-
-
-    findListById: function(itemId) {
-        return axios({
-            "method": "get",
-            "url": "http://192.168.1.119:5000/api/findList/" + itemId,
-            "headers": {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            
-        })
         .then( res => res.data[0])
         .catch(err => console.log(err.response))
     },
 
+    //========================================================================================
+    // Delete Recipe document '_id' form User document "recipe" array.
+    //========================================================================================
 
-
-
-    // Need to add route to retrieve User document "recipe" array of objects 
-
-    // Then...
-
-    // Need to add route to delete fav recipe (remove specific User "recipes" object)
-
-    // Need to add route to delete recipe groceryList (remove specific User "shoppingList" object)
-
-
-    // vvv Below are template routes, currently serve no actual purpose vvv
-
-
-
-    // Delete recipe from recipe collection (can i use same route to delete from recipe collection and user recipe array? adding add. route just in case)
-    deleteRecipe: function(recipeId) {
-        return axios.delete("/api/recipe/" + id)
-            .then(res => res.data)
-            .catch(err => console.log(err))
+    deleteRecipeFromUser: function(deleteDataObject) {
+        return axios({
+            "method": "DELETE",
+            "url": "http://192.168.1.119:5000/api/deleteFavRecipe",
+            "headers": {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            "data": deleteDataObject
+        })
+        .then(res => res.data)
+        .catch(err => console.log(err.response))
     },
-    // Delete recipe ID form user recipe array (may not be needed)
-    deleteRecipeFromUser: function(recipeId) {
-        return axios.delete("/api/user/" + recipeId) 
-            .then(res => res.data)
-            .catch(err => console.log(err))
+
+    //========================================================================================
+    // Delete GroceryList Document and remove '_id' form User document "shoppingList" array.
+    //========================================================================================
+
+    deleteGroceryListFromUser: function(deleteDataObject) {
+        return axios({
+            "method": "DELETE",
+            "url": "http://192.168.1.119:5000/api/deleteGroceryList",
+            "headers": {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            "data": deleteDataObject
+        })
+        .then(res => res.data)
+        .catch(err => console.log(err.response))
     }
+
 };
 
 
