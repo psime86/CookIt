@@ -152,6 +152,7 @@ class FavoriteList extends React.Component {
             <FavoriteCard
               key={i}
               id={recipe.recipeId}
+              image={recipe.recipeId}
               title={recipe.title}
               readyIn={recipe.readyIn}
               handleViewBtn={() => {this.handleViewBtn(recipe.link)}}

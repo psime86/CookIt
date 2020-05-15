@@ -3,6 +3,7 @@ import { View, Text, Image, ScrollView, ShadowPropTypesIOS } from 'react-native'
 import { Card, ListItem, Button, Icon } from 'react-native-elements';
 
 export default function BodyCard(props) {
+  let imageURI = `https://spoonacular.com/recipeImages/${props.image}-240x150.jpg`
   return (
     <Card
       id={props.id}
@@ -10,8 +11,11 @@ export default function BodyCard(props) {
       
       style={styles.card}
     >
-      
-      <Text style={{ marginBottom: 10 }}>
+      <Image 
+        style={{ width: "100%", height: 150, flex: 1, margin:"auto"}}
+        source={{uri: imageURI}}
+      />
+      <Text style={{ marginBottom: 10, marginTop: 10 }}>
         Ready in {props.readyIn} minutes!
       </Text>
       <Button
@@ -58,6 +62,7 @@ const styles = {
     flex: 1,
     marginTop: 20,
     color: 'rgb(121,150,128)',
+    
   },
 };
 

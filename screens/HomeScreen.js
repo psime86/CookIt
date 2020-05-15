@@ -189,8 +189,9 @@ class HomeScreen extends React.Component {
                 {this.state.recipes.length ? (
                     <View style={styles.container}>
                         {this.state.recipes.map((recipe,i) => (
+                            
                             <BodyCard key={i}
-                                
+                                image={recipe.id}
                                 id={recipe.id}
                                 title={recipe.title}
                                 readyIn={recipe.readyInMinutes}
@@ -198,6 +199,7 @@ class HomeScreen extends React.Component {
                                 handleIngredients={() => {this.handleIngredients(recipe.id, recipe.title)}}
                                 handleAddToFavorites={() => {this.handleAddToFavorites(recipe)}}
                             />
+                           
                         ))}
                     </View>
                 )
@@ -343,4 +345,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#2e78b7',
   },
+  image: {
+    width: "240px",
+    height: "150px"
+  }
 });

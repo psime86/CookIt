@@ -24,7 +24,7 @@ export default {
         // Search spoonacular for recipe "FROM SPOONACULAR API (NOT RAPID API)"
         return axios({
             "method":"GET",
-            "url":`https://api.spoonacular.com/recipes/search?query=${searchTerm}&number=10&apiKey=${apiKey}`,
+            "url":`https://api.spoonacular.com/recipes/search?query=${searchTerm}&number=20&apiKey=${apiKey}`,
             "header":
                 {
                 "Accept": "application/json",
