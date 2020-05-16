@@ -10,6 +10,7 @@ import {
   ScrollView,
   FlatList,
   AsyncStorage,
+  Alert
 } from 'react-native';
 // import { ScrollView } from 'react-native-gesture-handler';
 
@@ -89,7 +90,7 @@ class HomeScreen extends React.Component {
       // Call API.js function "getRecipeInfo"
       API.getRecipeInfo(id)
           .then(res => {
-              console.log(res)
+              //console.log(res)
               // Save the returned ingredients to this.state.ingredients array to map through
               this.setState({  ingredients: res.extendedIngredients})
               this.state.ingredients.map(ingredient => {
@@ -102,6 +103,10 @@ class HomeScreen extends React.Component {
               .then(res => {
                 console.log("returned from grocery route back to front end")
                 console.log(res)
+                if (res == "This recipe is already in your Grocery List.") {
+                  Alert.alert("Invalid Entry","This recipe is already in your 'Grocery List!'")
+                }
+
               })
           })
     }
@@ -128,7 +133,7 @@ class HomeScreen extends React.Component {
         console.log(this.state.searchTerm)
         // Call function "searchForRecipe" with argument of "searchTerm" after validation .
         if (this.state.searchTerm === "") {
-            alert("please enter something to search")
+            Alert.alert("Invalid Entry","please enter something to search")
         } else {
             this.searchForRecipe(this.state.searchTerm)
         } 
@@ -171,6 +176,9 @@ class HomeScreen extends React.Component {
         .then(res => {
           console.log("returned from recipe (add) route, now on the front end")
           console.log(res)
+          if (!res.name) {
+            Alert.alert("Invalid Entry","This recipe is already in your 'favorites!'")
+          }
         })
     }
 

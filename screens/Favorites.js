@@ -1,6 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
-import { View, ScrollView, Text, AsyncStorage, Button } from 'react-native';
+import { View, ScrollView, Text, AsyncStorage, Button, Alert } from 'react-native';
 import API from '../utils/API'
 // import { ScrollView } from 'react-native-gesture-handler';
 
@@ -113,6 +113,9 @@ class FavoriteList extends React.Component {
             .then(res => {
               console.log("returned from grocery route back to front end")
               console.log(res)
+              if (!res.name) {
+                Alert.alert("Invalid Entry","This recipe is already in your 'Grocery List!'")
+              }
             })
         })
   }
