@@ -4,26 +4,27 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import LogIn from '../screens/LogIn';
+import SettingsScreen from '../screens/Settings';
 import GroceryList from '../screens/GroceryList';
 import Favorites from '../screens/Favorites';
+import { Settings } from 'react-native';
+//import StartScreen from '../screens/StartScreen';
 
 const BottomTab = createBottomTabNavigator();
-const INITIAL_ROUTE_NAME = 'LogIn';
+const INITIAL_ROUTE_NAME = 'Home';
 
 export default function BottomTabNavigator({ navigation, route }) {
   // Set the header title on the parent stack navigator depending on the
   // currently active tab. Learn more in the documentation:
   // https://reactnavigation.org/docs/en/screen-options-resolution.html
-  navigation.setOptions({ headerTitle: getHeaderTitle(route) });
+  navigation.setOptions({ headerShown: false });
 
   return (
     <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
       <BottomTab.Screen
         name='Home'
         component={HomeScreen}
-        options={{
+        options={{          
           title: 'Home',
           tabBarIcon: ({ focused }) => (
             <FontAwesome5
@@ -32,7 +33,6 @@ export default function BottomTabNavigator({ navigation, route }) {
               size={24}
               color='black'
             />
-            // <TabBarIcon focused={focused} name='md-code-working' />
           ),
         }}
       />
@@ -70,9 +70,10 @@ export default function BottomTabNavigator({ navigation, route }) {
           ),
         }}
       />
+
       <BottomTab.Screen
-        name="LogIn"
-        component={LogIn}
+        name="Settings"
+        component={SettingsScreen}
         options={{
           title: 'Settings',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-cog" />,
@@ -93,7 +94,7 @@ function getHeaderTitle(route) {
       return 'Grocery List';
     case 'Favorites':
       return 'Favorites';
-      case 'LogIn':
+    case 'Settings':
       return 'Settings';
   }
 }

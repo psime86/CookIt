@@ -16,7 +16,7 @@ import { MonoText } from '../components/StyledText';
 import Title from '../components/Title';
 import BodyCard from '../components/Card';
 import SearchInput from '../components/SearchInput';
-import API from "../utils/API"
+//import API from "../utils/API"
 
 class HomeScreen extends React.Component {
 
