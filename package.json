@@ -45,5 +45,5 @@
     "jest-expo": "~37.0.0"
   },
   "private": true,
-  "proxy":"http://localhost:5000"
+  "proxy": "http://localhost:5000"
 }

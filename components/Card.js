@@ -1,69 +1,64 @@
 import React from 'react';
-import { View, Text, Image, ScrollView, ShadowPropTypesIOS } from 'react-native';
-import { Card, ListItem, Button, Icon } from 'react-native-elements';
+import { Text, Image, StyleSheet } from 'react-native';
+import { Card, Button } from 'react-native-elements';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function BodyCard(props) {
-  let imageURI = `https://spoonacular.com/recipeImages/${props.image}-240x150.jpg`
+  let imageURI = `https://spoonacular.com/recipeImages/${props.image}-240x150.jpg`;
   return (
     <Card
       id={props.id}
       title={props.title}
-      
+      containerStyle={{ borderRadius: 10 }}
       style={styles.card}
+      // image={{ uri: imageURI }}
     >
-      <Image 
-        style={{ width: "100%", height: 150, flex: 1, margin:"auto"}}
-        source={{uri: imageURI}}
+      <Image
+        style={{ width: '100%', height: 150, flex: 1, margin: 'auto' }}
+        source={{ uri: imageURI }}
       />
       <Text style={{ marginBottom: 10, marginTop: 10 }}>
-        Ready in {props.readyIn} minutes!
+        <Ionicons name='md-time' size={18} color='black' /> {props.readyIn}
+        min
       </Text>
       <Button
         buttonStyle={{
-          borderRadius: 0,
-          marginLeft: 0,
-          marginRight: 0,
-          marginBottom: 0,
+          backgroundColor: 'rgb(92,112,143)',
         }}
-        title='VIEW NOW'
+        title='View Recipe'
         id={props.id}
-        onPress={() => {props.handleViewBtn()}}
+        onPress={() => {
+          props.handleViewBtn();
+        }}
       />
       <Button
         buttonStyle={{
-          borderRadius: 0,
-          marginLeft: 0,
-          marginRight: 0,
-          marginBottom: 0,
           marginTop: 10,
+          backgroundColor: 'rgb(92,112,143)',
         }}
-        title='Add Ingridents to Shopping List '
+        title='Add Ingredients to Grocery List '
         id={props.id}
-        onPress={() => {props.handleIngredients()}}
+        onPress={() => {
+          props.handleIngredients();
+        }}
       />
       <Button
         buttonStyle={{
-          borderRadius: 0,
-          marginLeft: 0,
-          marginRight: 0,
-          marginBottom: 0,
           marginTop: 10,
+          backgroundColor: 'rgb(92,112,143)',
         }}
-        title='Add to Favorite '
+        title='Add to Favorites '
         id={props.id}
-        onPress={()=> {props.handleAddToFavorites()}}
+        onPress={() => {
+          props.handleAddToFavorites();
+        }}
       />
     </Card>
   );
 }
 
-const styles = {
+const styles = StyleSheet.create({
   card: {
-    flex: 1,
-    marginTop: 20,
-    color: 'rgb(121,150,128)',
-    
+    color: 'black',
   },
-};
-
-
+});
