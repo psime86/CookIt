@@ -103,7 +103,7 @@ class HomeScreen extends React.Component {
               .then(res => {
                 console.log("returned from grocery route back to front end")
                 console.log(res)
-                if (res == "This recipe is already in your Grocery List.") {
+                if (!res.name) {
                   Alert.alert("Invalid Entry","This recipe is already in your 'Grocery List!'")
                 }
 
