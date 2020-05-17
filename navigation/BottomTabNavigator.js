@@ -19,7 +19,11 @@ export default function BottomTabNavigator({ navigation, route }) {
   navigation.setOptions({ headerShown: false });
 
   return (
-    <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
+    <BottomTab.Navigator
+      initialRouteName={INITIAL_ROUTE_NAME}
+      activeColor='#e91e63'
+      style={{ backgroundColor: 'tomato' }}
+    >
       <BottomTab.Screen
         name='Home'
         component={HomeScreen}
@@ -82,7 +86,7 @@ export default function BottomTabNavigator({ navigation, route }) {
           />
           )
         }}
-        />
+      />
     </BottomTab.Navigator>
   );
 }

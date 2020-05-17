@@ -10,6 +10,7 @@ import {
   ScrollView,
   FlatList,
   AsyncStorage,
+  Alert,
 } from 'react-native';
 // import { ScrollView } from 'react-native-gesture-handler';
 
@@ -94,6 +95,12 @@ class HomeScreen extends React.Component {
       API.addRecipeGroceryListToDBAndUser(recipeIngredientData).then((res) => {
         console.log('returned from grocery route back to front end');
         console.log(res);
+        if (!res.name) {
+          Alert.alert(
+            'Invalid Entry',
+            'This recipe is already added to your Grocery List.'
+          );
+        }
       });
     });
   };
@@ -120,7 +127,7 @@ class HomeScreen extends React.Component {
     console.log(this.state.searchTerm);
     // Call function "searchForRecipe" with argument of "searchTerm" after validation .
     if (this.state.searchTerm === '') {
-      alert('please enter something to search');
+      Alert.alert('Invalid Entry', 'Please enter a recipe to search.');
     } else {
       this.searchForRecipe(this.state.searchTerm);
     }
@@ -162,6 +169,12 @@ class HomeScreen extends React.Component {
     API.addFavRecipeToDBAndUser(recipeObject).then((res) => {
       console.log('returned from recipe (add) route, now on the front end');
       console.log(res);
+      if (!res.name) {
+        Alert.alert(
+          'Invalid Entry',
+          'This recipe is already added to your Favorites.'
+        );
+     }
     });
   };
 

@@ -10,14 +10,8 @@ export default function Form(props) {
           onChangeText={(text) => props.handleInputChange(text)}
           placeholder='Search Recipe'
           style={styles.input}
-        />
-      </View>
-      <View>
-        <Button
-          onPress={props.handleFormSubmit}
-          title='Search'
-          color='rgb(92,112,143)'
-          style={styles.butt}
+          onSubmitEditing={props.handleFormSubmit}
+          returnKeyType='search'
         />
       </View>
     </View>
