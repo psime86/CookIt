@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 // import { TextInput } from 'react-native-gesture-handler';
-import { AntDesign } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function GroceryCard(props) {
   const [text, setText] = useState('');
@@ -47,9 +47,11 @@ export default function GroceryCard(props) {
           <TouchableOpacity>
             <View style={{ flex: 1, flexDirection: 'row' }}>
               <Text style={styles.text}>{list}</Text>
-              <AntDesign
-                name='delete'
-                size={20}
+
+              <MaterialCommunityIcons
+                name='close-box-outline'
+                size={24}
+
                 color='black'
                 style={styles.icon}
                 onPress={(e) => deleteHandler(list)}
@@ -61,19 +63,13 @@ export default function GroceryCard(props) {
         {/*Input Text*/}
         <TextInput
           style={styles.input}
-          placeholder='New Grocery Item'
+
+          placeholder='Add Additional Item'
           onChangeText={changeHandler}
+          onSubmitEditing={() => submitHandler(text)}
+          returnKeyType='done'
         />
-        {/*Add to list button*/}
-        <Button
-          buttonStyle={{
-            borderRadius: 10,
-            marginBottom: 10,
-            backgroundColor: 'rgb(148,148,148)',
-          }}
-          title='Add to List'
-          onPress={() => submitHandler(text)}
-        />
+       
         {/*Delete button*/}
         <Button
           buttonStyle={{

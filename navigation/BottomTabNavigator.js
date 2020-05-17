@@ -19,7 +19,11 @@ export default function BottomTabNavigator({ navigation, route }) {
   navigation.setOptions({ headerTitle: getHeaderTitle(route) });
 
   return (
-    <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
+    <BottomTab.Navigator
+      initialRouteName={INITIAL_ROUTE_NAME}
+      activeColor='#e91e63'
+      style={{ backgroundColor: 'tomato' }}
+    >
       <BottomTab.Screen
         name='Home'
         component={HomeScreen}
@@ -71,13 +75,15 @@ export default function BottomTabNavigator({ navigation, route }) {
         }}
       />
       <BottomTab.Screen
-        name="LogIn"
+        name='LogIn'
         component={LogIn}
         options={{
           title: 'Settings',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-cog" />,
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon focused={focused} name='md-cog' />
+          ),
         }}
-        />
+      />
     </BottomTab.Navigator>
   );
 }
@@ -93,7 +99,7 @@ function getHeaderTitle(route) {
       return 'Grocery List';
     case 'Favorites':
       return 'Favorites';
-      case 'LogIn':
+    case 'LogIn':
       return 'Settings';
   }
 }
