@@ -4,11 +4,10 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import SettingsScreen from '../screens/Settings';
+import Profile from '../screens/Profile';
 import GroceryList from '../screens/GroceryList';
 import Favorites from '../screens/Favorites';
 import { Settings } from 'react-native';
-//import StartScreen from '../screens/StartScreen';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
@@ -30,7 +29,7 @@ export default function BottomTabNavigator({ navigation, route }) {
             <FontAwesome5
               focused={focused}
               name='home'
-              size={24}
+              size={25}
               color='black'
             />
           ),
@@ -46,10 +45,9 @@ export default function BottomTabNavigator({ navigation, route }) {
             <FontAwesome5
               focused={focused}
               name='list'
-              size={24}
+              size={27}
               color='black'
             />
-            // <TabBarIcon focused={focused} name='md-book' />
           ),
         }}
       />
@@ -63,20 +61,26 @@ export default function BottomTabNavigator({ navigation, route }) {
             <MaterialIcons
               focused={focused}
               name='favorite'
-              size={24}
+              size={30}
               color='black'
             />
-            // <TabBarIcon focused={focused} name='md-book' />
           ),
         }}
       />
 
       <BottomTab.Screen
-        name="Settings"
-        component={SettingsScreen}
+        name="Profile"
+        component={Profile}
         options={{
-          title: 'Settings',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-cog" />,
+          title: 'Profile',
+          tabBarIcon: ({ focused }) => (
+          <MaterialIcons 
+          focused={focused}
+          name="person" 
+          size={34}
+          color="black"
+          />
+          )
         }}
         />
     </BottomTab.Navigator>
@@ -94,7 +98,7 @@ function getHeaderTitle(route) {
       return 'Grocery List';
     case 'Favorites':
       return 'Favorites';
-    case 'Settings':
-      return 'Settings';
+    case 'Profile':
+      return 'Profile';
   }
 }

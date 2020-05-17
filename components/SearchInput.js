@@ -1,35 +1,34 @@
 import React from 'react';
 
-import { Card, ListItem, Button, Icon } from 'react-native-elements';
+import { TextInput, View, Button, StyleSheet } from 'react-native';
 
-import { TextInput, View, TouchableHighlight, Text } from 'react-native';
-
-export default function () {
+export default function Form(props) {
   return (
     <View style={styles.container}>
       <View>
-        <TextInput placeholder='Search Recipe' style={styles.input} />
+        <TextInput
+          onChangeText={(text) => props.handleInputChange(text)}
+          placeholder='Search Recipe'
+          style={styles.input}
+        />
       </View>
       <View>
         <Button
-          buttonStyle={{
-            borderRadius: 10,
-            backgroundColor: 'rgb(92,112,143)',
-          }}
+          onPress={props.handleFormSubmit}
           title='Search'
+          color='rgb(92,112,143)'
+          style={styles.butt}
         />
       </View>
-
     </View>
   );
 }
 
-const styles = {
+const styles = StyleSheet.create({
   input: {
-
     textAlign: 'left',
     borderColor: 'black',
-    padding: 5,
+    padding: 4,
     borderColor: 'black',
     borderWidth: 1,
     flex: 2,
@@ -44,8 +43,7 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'center',
   },
-  but: {
-    flex: 1,
-
+  butt: {
+    borderRadius: 10,
   },
-};
+});

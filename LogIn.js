@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator, AsyncStorage } from 'react-native';
 import * as Facebook from 'expo-facebook';
 import { NavigationContainer, useNavigation, navigation, StackActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
-import HomeScreen from './screens/HomeScreen';
-//import useLinking from './navigation/useLinking';
-import LoginScreen from './LogIn';
+import API from './utils/API'
+
 
 console.disableYellowBox = true;
 const Stack = createStackNavigator();
-const BottomTab = createBottomTabNavigator();
 
 
 export default function App() {
@@ -20,6 +17,7 @@ export default function App() {
   const [userData, setUserData] = useState(null);
   const [isImageLoading, setImageLoadStatus] = useState(false);
   const navigation = useNavigation();
+  navigation.setOptions({ headerShown: false });
   
 
   facebookLogIn = async () => {
@@ -41,7 +39,49 @@ export default function App() {
           .then(response => response.json())
           .then(data => {
             setLoggedinStatus(true);
-            setUserData(data);            
+            setUserData(data);
+            // My add. (bryan) to view response and send data, new from this line down to line 
+            console.log(data);
+            // Create object to hold user data from FB
+            let facebookUserData = {
+              email : data.email,
+              name: data.name,
+              uidFB: data.id,
+            }
+
+            // use AsyncStorage to save USER data to use throughout the application.
+
+            _storeData = async (key, value) => {
+              try {
+                  await AsyncStorage.setItem(key, JSON.stringify(value));
+                  console.log("data: " + key + " ...added to asyncStorage!")
+              } catch (error) {
+                console.log("error setting item to AsyncStorage")
+                console.log("setItem error: " + error)
+              }
+            };
+            _storeData("email", data.email);
+            _storeData("name", data.name);
+            _storeData("uidFB", data.id);
+            _storeData("allData", data);            
+
+            
+
+            // Send the data to the back end for validation to see if user exists, if not create user
+            API.sendUserToDB(facebookUserData)
+            .then(data => {
+              console.log("on the login page")
+              console.log(data)
+              // Save the returned database id to "databaseId" in async storage
+              _storeData("databaseId", data);
+            })
+            .catch(err => console.log(err))
+              
+               
+              // Need to somehow save user object to APP..... AsyncStorage? state / context? redirect to homeScreen and pass object?
+
+            
+              console.log(data + "**LOG-IN PAGE**");
           })
           
           .catch(e => console.log(e))
@@ -59,9 +99,23 @@ export default function App() {
     setUserData(null);
     setImageLoadStatus(false);
     console.log('logout');
+    _removeUserID = async (key) => {
+      try {
+        await AsyncStorage.removeItem(key)
+        console.log("removed data form async")
+      } catch (error) {
+        console.log("removeItem error: " + error)
+      }
+    }
+    _removeUserID("email");
+    _removeUserID("name");
+    _removeUserID("uidFB");
+    _removeUserID("databaseId");
+    
   }
-  console.log(isLoggedin);
-  console.log(userData);
+  console.log(isLoggedin + "-LogIn");
+  console.log(userData + "**LOG-IN USER**");
+
 if (isLoggedin === true){
   navigation.setOptions({ headerShown: false });
   return(
@@ -79,7 +133,7 @@ if (isLoggedin === true){
       userData ?      
         <View style={styles.container}>
           <Image
-            style={{ width: 200, height: 200, borderRadius: 50 }}
+            style={{ width: 200, height: 200, borderRadius: 50, marginVertical: 20 }}
             source={{ uri: userData.picture.data.url }}
             onLoadEnd={() => setImageLoadStatus(true)} />
           <ActivityIndicator size="large" color="#0000ff" animating={!isImageLoading} style={{ position: "absolute" }} />
