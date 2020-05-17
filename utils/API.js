@@ -60,7 +60,7 @@ export default {
     return axios({
       method: 'POST',
 
-      url: 'http://192.168.1.13:5000/api/user',
+      url: 'http://192.168.1.14/api/user',
 
       headers: {
         Accept: 'application/json',
@@ -80,8 +80,7 @@ export default {
     return axios({
       method: 'POST',
 
-
-      url: 'http://192.168.1.13:5000/api/recipe',
+      url: 'http://192.168.1.14/api/recipe',
 
       headers: {
         Accept: 'application/json',
@@ -101,7 +100,7 @@ export default {
     return axios({
       method: 'POST',
 
-      url: 'http://192.168.1.13:5000/api/grocery',
+      url: 'http://192.168.1.14/api/grocery',
 
       headers: {
         Accept: 'application/json',
@@ -123,7 +122,7 @@ export default {
     return axios({
       method: 'GET',
 
-      url: 'http://192.168.1.13:5000/api/findUser/' + id,
+      url: 'http://192.168.1.14/api/findUser/' + id,
 
       headers: {
         Accept: 'application/json',
@@ -142,7 +141,7 @@ export default {
     return axios({
       method: 'DELETE',
 
-      url: 'http://192.168.1.13:5000/api/deleteFavRecipe',
+      url: 'http://192.168.1.14/api/deleteFavRecipe',
 
       headers: {
         Accept: 'application/json',
@@ -162,7 +161,7 @@ export default {
     return axios({
       method: 'DELETE',
 
-      url: 'http://192.168.1.13:5000/api/deleteGroceryList',
+      url: 'http://192.168.1.14/api/deleteGroceryList',
 
       headers: {
         Accept: 'application/json',

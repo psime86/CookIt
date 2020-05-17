@@ -21,8 +21,9 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "if-env": "^1.0.4",
-    "mongoose": "^5.9.11",
-    "node": "^14.0.0",
-    "path": "^0.12.7"
+    "mongoose": "^5.9.14",
+    "node": "^14.2.0",
+    "path": "^0.12.7",
+    "react-native-reanimated": "^1.8.0"
   }
 }

@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator, AsyncStorage } from 'react-native';
 import * as Facebook from 'expo-facebook';
-import API from '../utils/API'
-import { apisAreAvailable } from 'expo';
-import { AsyncStorage } from 'react-native';
-
+import { NavigationContainer, useNavigation, navigation, StackActions } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import BottomTabNavigator from './navigation/BottomTabNavigator';
+import API from './utils/API'
 
 
 console.disableYellowBox = true;
+const Stack = createStackNavigator();
+
 
 export default function App() {
 
   const [isLoggedin, setLoggedinStatus] = useState(false);
   const [userData, setUserData] = useState(null);
   const [isImageLoading, setImageLoadStatus] = useState(false);
+  const navigation = useNavigation();
+  navigation.setOptions({ headerShown: false });
+  
 
   facebookLogIn = async () => {
     try {
@@ -25,9 +30,10 @@ export default function App() {
         permissions,
         declinedPermissions,
       } = await Facebook.logInWithReadPermissionsAsync('237042010845194', {
-        permissions: ['public_profile'],
+        permissions: ['public_profile', 'email'],
       });
       if (type === 'success') {
+        console.log(type);
         // Get the user's name using Facebook's Graph API
         fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,picture.height(500)`)
           .then(response => response.json())
@@ -40,7 +46,7 @@ export default function App() {
             let facebookUserData = {
               email : data.email,
               name: data.name,
-              uidFB: data.id
+              uidFB: data.id,
             }
 
             // use AsyncStorage to save USER data to use throughout the application.
@@ -57,6 +63,7 @@ export default function App() {
             _storeData("email", data.email);
             _storeData("name", data.name);
             _storeData("uidFB", data.id);
+            _storeData("allData", data);            
 
             
 
@@ -74,11 +81,13 @@ export default function App() {
               // Need to somehow save user object to APP..... AsyncStorage? state / context? redirect to homeScreen and pass object?
 
             
-
+              console.log(data + "**LOG-IN PAGE**");
           })
+          
           .catch(e => console.log(e))
       } else {
-        // type === 'cancel'
+         (type === 'cancel')
+         console.log(type);
       }
     } catch ({ message }) {
       alert(`Facebook Login Error: ${message}`);
@@ -89,6 +98,7 @@ export default function App() {
     setLoggedinStatus(false);
     setUserData(null);
     setImageLoadStatus(false);
+    console.log('logout');
     _removeUserID = async (key) => {
       try {
         await AsyncStorage.removeItem(key)
@@ -103,13 +113,27 @@ export default function App() {
     _removeUserID("databaseId");
     
   }
+  console.log(isLoggedin + "-LogIn");
+  console.log(userData + "**LOG-IN USER**");
+
+if (isLoggedin === true){
+  navigation.setOptions({ headerShown: false });
+  return(
+    
+    <Stack.Navigator>           
+    <>
+      <Stack.Screen name="Cook-it" component={BottomTabNavigator} />
+    </>
+    </Stack.Navigator>
+    
+  )};
 
   return (
     isLoggedin ?
-      userData ?
+      userData ?      
         <View style={styles.container}>
           <Image
-            style={{ width: 200, height: 200, borderRadius: 50 }}
+            style={{ width: 200, height: 200, borderRadius: 50, marginVertical: 20 }}
             source={{ uri: userData.picture.data.url }}
             onLoadEnd={() => setImageLoadStatus(true)} />
           <ActivityIndicator size="large" color="#0000ff" animating={!isImageLoading} style={{ position: "absolute" }} />
@@ -123,13 +147,14 @@ export default function App() {
       <View style={styles.container}>
         <Image
           style={{ width: 200, height: 200, borderRadius: 50, marginVertical: 20 }}
-          source={require("../assets/images/React.png")} />
+          source={require("./assets/images/React.png")} />
         <TouchableOpacity style={styles.loginBtn} onPress={this.facebookLogIn}>
           <Text style={{ color: "#fff" }}>Login with Facebook</Text>
         </TouchableOpacity>
       </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

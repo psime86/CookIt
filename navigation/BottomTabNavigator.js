@@ -4,19 +4,19 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import LogIn from '../screens/LogIn';
+import Profile from '../screens/Profile';
 import GroceryList from '../screens/GroceryList';
 import Favorites from '../screens/Favorites';
+import { Settings } from 'react-native';
 
 const BottomTab = createBottomTabNavigator();
-const INITIAL_ROUTE_NAME = 'LogIn';
+const INITIAL_ROUTE_NAME = 'Home';
 
 export default function BottomTabNavigator({ navigation, route }) {
   // Set the header title on the parent stack navigator depending on the
   // currently active tab. Learn more in the documentation:
   // https://reactnavigation.org/docs/en/screen-options-resolution.html
-  navigation.setOptions({ headerTitle: getHeaderTitle(route) });
+  navigation.setOptions({ headerShown: false });
 
   return (
     <BottomTab.Navigator
@@ -27,16 +27,15 @@ export default function BottomTabNavigator({ navigation, route }) {
       <BottomTab.Screen
         name='Home'
         component={HomeScreen}
-        options={{
+        options={{          
           title: 'Home',
           tabBarIcon: ({ focused }) => (
             <FontAwesome5
               focused={focused}
               name='home'
-              size={24}
+              size={25}
               color='black'
             />
-            // <TabBarIcon focused={focused} name='md-code-working' />
           ),
         }}
       />
@@ -50,10 +49,9 @@ export default function BottomTabNavigator({ navigation, route }) {
             <FontAwesome5
               focused={focused}
               name='list'
-              size={24}
+              size={27}
               color='black'
             />
-            // <TabBarIcon focused={focused} name='md-book' />
           ),
         }}
       />
@@ -67,21 +65,26 @@ export default function BottomTabNavigator({ navigation, route }) {
             <MaterialIcons
               focused={focused}
               name='favorite'
-              size={24}
+              size={30}
               color='black'
             />
-            // <TabBarIcon focused={focused} name='md-book' />
           ),
         }}
       />
+
       <BottomTab.Screen
-        name='LogIn'
-        component={LogIn}
+        name="Profile"
+        component={Profile}
         options={{
-          title: 'Settings',
+          title: 'Profile',
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name='md-cog' />
-          ),
+          <MaterialIcons 
+          focused={focused}
+          name="person" 
+          size={34}
+          color="black"
+          />
+          )
         }}
       />
     </BottomTab.Navigator>
@@ -99,7 +102,7 @@ function getHeaderTitle(route) {
       return 'Grocery List';
     case 'Favorites':
       return 'Favorites';
-    case 'LogIn':
-      return 'Settings';
+    case 'Profile':
+      return 'Profile';
   }
 }
