@@ -14,14 +14,6 @@ export default function Form(props) {
           returnKeyType='search'
         />
       </View>
-      {/* <View>
-        <Button
-          onPress={props.handleFormSubmit}
-          title='Search'
-          color='rgb(92,112,143)'
-          style={styles.butt}
-        />
-      </View> */}
     </View>
   );
 }

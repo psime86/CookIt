@@ -127,7 +127,7 @@ class HomeScreen extends React.Component {
     console.log(this.state.searchTerm);
     // Call function "searchForRecipe" with argument of "searchTerm" after validation .
     if (this.state.searchTerm === '') {
-      Alert.alert('Invalid Entry', 'Please enter a recipe to search');
+      Alert.alert('Invalid Entry', 'Please enter a recipe to search.');
     } else {
       this.searchForRecipe(this.state.searchTerm);
     }
@@ -174,7 +174,7 @@ class HomeScreen extends React.Component {
           'Invalid Entry',
           'This recipe is already added to your Favorites.'
         );
-      }
+     }
     });
   };
 

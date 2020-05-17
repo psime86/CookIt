@@ -122,6 +122,7 @@ class FavoriteList extends React.Component {
             'This recipe is already added to your Grocery List.'
           );
         }
+
       });
     });
   };
