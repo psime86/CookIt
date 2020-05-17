@@ -22,6 +22,8 @@ import API from '../utils/API'
 import Favorites from './Favorites'
 
 
+
+
 class HomeScreen extends React.Component {
 
     state = {
@@ -59,6 +61,20 @@ class HomeScreen extends React.Component {
       _getIdAsyncData()
     }
 
+    //=============================================================================
+    // Fisher-Yates (aka Knuth) Shuffle
+    //=============================================================================
+
+    shuffleArray = (array) => {
+      for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+      }
+      // Return the shuffled array
+      return array
+    }
+
+
     //===============================================================================
     // Search Spoonacular API for recipe based on query (searchTerm).
     //===============================================================================
@@ -69,7 +85,7 @@ class HomeScreen extends React.Component {
         API.searchRecipe(searchTerm)
             .then(res => {
                 console.log(res.results);
-                this.setState({ recipes: res.results })
+                this.setState({ recipes: this.shuffleArray(res.results) })
             })
     }
 

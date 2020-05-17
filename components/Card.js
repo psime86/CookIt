@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image, ScrollView, ShadowPropTypesIOS } from 'react-native';
 import { Card, ListItem, Button, Icon } from 'react-native-elements';
+import ShareButton from '../components/ShareButton';
 
 export default function BodyCard(props) {
   let imageURI = `https://spoonacular.com/recipeImages/${props.image}-240x150.jpg`
@@ -53,6 +54,7 @@ export default function BodyCard(props) {
         id={props.id}
         onPress={()=> {props.handleAddToFavorites()}}
       />
+      <ShareButton />
     </Card>
   );
 }
