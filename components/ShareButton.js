@@ -2,11 +2,17 @@ import React from 'react';
 import {Share, View, Button, Alert } from 'react-native';
 
 
-export default ShareButton = () => {
+export default ShareButton = (props) => {
+    let recipe = props.link
+    console.log(recipe)
+
     const onShare = async () => {
         try {
             const result = await Share.share({
-                message: "SHARE THIS!"
+                url: props.link,
+                message: "Check this out!",
+                title: "useless title"
+                
 
             });
             if (SpeechRecognitionResultList.action === Share.sharedAction) {

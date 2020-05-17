@@ -222,6 +222,7 @@ class HomeScreen extends React.Component {
                                 handleViewBtn={() => {this.handleViewBtn(recipe.sourceUrl)}}
                                 handleIngredients={() => {this.handleIngredients(recipe.id, recipe.title)}}
                                 handleAddToFavorites={() => {this.handleAddToFavorites(recipe)}}
+                                link={recipe.sourceUrl}
                             />
                            
                         ))}

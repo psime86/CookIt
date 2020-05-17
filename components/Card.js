@@ -54,7 +54,8 @@ export default function BodyCard(props) {
         id={props.id}
         onPress={()=> {props.handleAddToFavorites()}}
       />
-      <ShareButton />
+      <ShareButton
+      link={props.link} />
     </Card>
   );
 }
