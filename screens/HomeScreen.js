@@ -25,8 +25,8 @@ class HomeScreen extends React.Component {
   state = {
     recipes: [],
     ingredients: [],
-    searchTerm: '',
-    UserDBId: '',
+    searchTerm: "",
+    UserDBId: "",
   };
 
   //===========================================================================================
@@ -37,11 +37,11 @@ class HomeScreen extends React.Component {
     // define function to get databaseId from Async
     _getIdAsyncData = async () => {
       try {
-        let databaseId = await AsyncStorage.getItem('databaseId');
+        let databaseId = await AsyncStorage.getItem("databaseId");
         if (databaseId !== null) {
           console.log(databaseId);
           this.setState({ UserDBId: JSON.parse(databaseId) });
-          console.log('setting UserUID state to: ' + databaseId);
+          console.log("setting UserDBId state to: " + databaseId);
           console.log(this.state.UserDBId);
         } else {
           console.log("databaseId came back as 'null' from Async.");
@@ -56,17 +56,33 @@ class HomeScreen extends React.Component {
     _getIdAsyncData();
   }
 
+  //=============================================================================
+  // Fisher-Yates (aka Knuth) Shuffle
+  //=============================================================================
+
+  shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    // Return the shuffled array
+    return array
+  }
+
+
   //===============================================================================
   // Search Spoonacular API for recipe based on query (searchTerm).
   //===============================================================================
 
   searchForRecipe = (searchTerm) => {
-    // Call API.js function "searchRecipe" to query by this.state.searchTerm
-    API.searchRecipe(searchTerm).then((res) => {
-      console.log(res.results);
-      this.setState({ recipes: res.results });
-    });
-  };
+
+      // Call API.js function "searchRecipe" to query by this.state.searchTerm
+      API.searchRecipe(searchTerm)
+          .then(res => {
+              console.log(res.results);
+              this.setState({ recipes: this.shuffleArray(res.results) })
+          })
+  }
 
   //========================================================================================================================================
   // Search API for recipe Info based on recipe ID number, then create groceryList document and add to User documents 'shoppingList" array.
@@ -82,24 +98,23 @@ class HomeScreen extends React.Component {
       ingredients: [],
     };
     // Call API.js function "getRecipeInfo"
-    API.getRecipeInfo(id).then((res) => {
-      console.log(res);
-      // Save the returned ingredients to this.state.ingredients array to map through
-      this.setState({ ingredients: res.extendedIngredients });
-      this.state.ingredients.map((ingredient) => {
-        console.log(ingredient.name);
-        // Add each ingredient to the ingredients array in the recipeIngredientData object
-        recipeIngredientData.ingredients.push(ingredient.name);
+    API.getRecipeInfo(id)
+      .then((res) => {
+        console.log(res);
+        // Save the returned ingredients to this.state.ingredients array to map through
+        this.setState({ ingredients: res.extendedIngredients });
+        this.state.ingredients.map( ingredient => {
+          console.log(ingredient.name);
+          // Add each ingredient to the ingredients array in the recipeIngredientData object
+          recipeIngredientData.ingredients.push(ingredient.name);
       });
       // Call API.js function "addRecipeGroceryListToDBAndUser" to send "recipeIngredientData" to backend
-      API.addRecipeGroceryListToDBAndUser(recipeIngredientData).then((res) => {
-        console.log('returned from grocery route back to front end');
-        console.log(res);
-        if (!res.name) {
-          Alert.alert(
-            'Invalid Entry',
-            'This recipe is already added to your Grocery List.'
-          );
+      API.addRecipeGroceryListToDBAndUser(recipeIngredientData)
+        .then((res) => {
+          console.log('returned from grocery route back to front end');
+          console.log(res);
+          if (!res.name) {
+            Alert.alert( 'Invalid Entry', 'This recipe is already added to your Grocery List.' );
         }
       });
     });
@@ -109,7 +124,7 @@ class HomeScreen extends React.Component {
   // Handle form input change.
   //========================================================================================
 
-  handleInputChange = (event) => {
+  handleInputChange = event => {
     // Assign the search change in input to a variable.
     console.log(event);
     let formInput = event;
@@ -122,14 +137,14 @@ class HomeScreen extends React.Component {
   // Handle form submit button.
   //===========================================================================================
 
-  handleFormSubmit = (event) => {
+  handleFormSubmit = event => {
     event.preventDefault();
     console.log(this.state.searchTerm);
     // Call function "searchForRecipe" with argument of "searchTerm" after validation .
-    if (this.state.searchTerm === '') {
+    if (this.state.searchTerm === "") {
       Alert.alert('Invalid Entry', 'Please enter a recipe to search.');
     } else {
-      this.searchForRecipe(this.state.searchTerm);
+        this.searchForRecipe(this.state.searchTerm);
     }
   };
 
@@ -166,16 +181,14 @@ class HomeScreen extends React.Component {
       sourceUrl: recipe.sourceUrl,
     };
     // Call API.js function "addFavRecipeToDBAndUser" to send "recipeObject" to backend
-    API.addFavRecipeToDBAndUser(recipeObject).then((res) => {
-      console.log('returned from recipe (add) route, now on the front end');
-      console.log(res);
-      if (!res.name) {
-        Alert.alert(
-          'Invalid Entry',
-          'This recipe is already added to your Favorites.'
-        );
-     }
-    });
+    API.addFavRecipeToDBAndUser(recipeObject)
+      .then((res) => {
+        console.log('returned from recipe (add) route, now on the front end');
+        console.log(res);
+        if (!res.name) {
+          Alert.alert('Invalid Entry', 'This recipe is already added to your Favorites.');
+        }
+       });
   };
 
   //==================================================================================================
@@ -199,15 +212,9 @@ class HomeScreen extends React.Component {
                 id={recipe.id}
                 title={recipe.title}
                 readyIn={recipe.readyInMinutes}
-                handleViewBtn={() => {
-                  this.handleViewBtn(recipe.sourceUrl);
-                }}
-                handleIngredients={() => {
-                  this.handleIngredients(recipe.id, recipe.title);
-                }}
-                handleAddToFavorites={() => {
-                  this.handleAddToFavorites(recipe);
-                }}
+                handleViewBtn={() => { this.handleViewBtn(recipe.sourceUrl)}}
+                handleIngredients={() => { this.handleIngredients(recipe.id, recipe.title)}}
+                handleAddToFavorites={() => { this.handleAddToFavorites(recipe)}}
               />
             ))}
           </View>

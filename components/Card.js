@@ -27,9 +27,7 @@ export default function BodyCard(props) {
         }}
         title='View Recipe'
         id={props.id}
-        onPress={() => {
-          props.handleViewBtn();
-        }}
+        onPress={() => {props.handleViewBtn()}}
       />
       <Button
         buttonStyle={{
@@ -38,9 +36,7 @@ export default function BodyCard(props) {
         }}
         title='Add Ingredients to Grocery List '
         id={props.id}
-        onPress={() => {
-          props.handleIngredients();
-        }}
+        onPress={() => {props.handleIngredients()}}
       />
       <Button
         buttonStyle={{
@@ -49,9 +45,7 @@ export default function BodyCard(props) {
         }}
         title='Add to Favorites '
         id={props.id}
-        onPress={() => {
-          props.handleAddToFavorites();
-        }}
+        onPress={() => {props.handleAddToFavorites()}}
       />
     </Card>
   );

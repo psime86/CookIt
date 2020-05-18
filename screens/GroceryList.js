@@ -29,25 +29,23 @@ class GroceryList extends React.Component {
     // define function to get databaseId from Async
     _getIdAsyncData = async () => {
       try {
-        let databaseId = await AsyncStorage.getItem('databaseId');
+        let databaseId = await AsyncStorage.getItem("databaseId");
         if (databaseId !== null) {
           console.log(databaseId);
           this.setState({ UserDBId: JSON.parse(databaseId) });
-          console.log('setting UserUID state to: ' + databaseId);
+          console.log("setting UserUID state to: " + databaseId);
           console.log(this.state.UserDBId);
         } else {
           console.log("databaseId came back as 'null' from Async.");
         }
       } catch (error) {
-        console.log('error retrieving databaseId from Async.');
-        console.log('getItem error: ' + error);
+        console.log("error retrieving databaseId from Async.");
+        console.log("getItem error: " + error);
       }
     };
     // Call function to retrieve databaseId from Async
     _getIdAsyncData().then(() => {
-      console.log(
-        "after retrieving databaseId... call next function 'getUserDataFromDB()'"
-      );
+      console.log( "after retrieving databaseId... call next function 'getUserDataFromDB()'");
       this.getUserDataFromDB();
     });
   }
@@ -61,9 +59,7 @@ class GroceryList extends React.Component {
     // Grab User "shoppingList"
     API.findUser(this.state.UserDBId)
       .then((res) => {
-        console.log(
-          'after retrieveing user DB data..... log response on front end'
-        );
+        console.log("after retrieveing user DB data..... log response on front end");
         console.log(res);
         console.log(res.shoppingList);
         this.setState({ shoppingList: res.shoppingList });
@@ -73,7 +69,6 @@ class GroceryList extends React.Component {
       .catch((err) => console.log(err));
   };
 
-  // Delete recipe function goes here
   //===================================================================================================================================
   // Delete GroceryList document from GroceryList collection by '_id', then remove from User document "shoppingList" array by '_id"
   //===================================================================================================================================
@@ -84,16 +79,13 @@ class GroceryList extends React.Component {
       user: this.state.UserDBId,
       groceryListDBId: id,
     };
-    API.deleteGroceryListFromUser(deleteDataObject).then((res) => {
-      this.setState({
-        shoppingList: this.state.shoppingList.filter((list) => list._id !== id),
-      });
-      console.log('Below should be the returned data from the delete route');
+    API.deleteGroceryListFromUser(deleteDataObject)
+      .then((res) => {
+        this.setState({ shoppingList: this.state.shoppingList.filter((list) => list._id !== id)});
+      console.log("Below should be the returned data from the delete route");
       console.log(res);
     });
   };
-
-  // Delete specific ingredients?
 
   //==================================================================================================
   // Render to screen.
@@ -116,9 +108,7 @@ class GroceryList extends React.Component {
           <View style={styles.container}>
             <Button
               title={'refresh'}
-              onPress={() => {
-                this.getUserDataFromDB();
-              }}
+              onPress={() => {this.getUserDataFromDB()}}
               color='rgb(92,112,143)'
             />
             {this.state.shoppingList.map((listObject, i) => (
@@ -126,9 +116,7 @@ class GroceryList extends React.Component {
                 key={i}
                 title={listObject.title}
                 list={listObject.ingredients}
-                deleteFromShoppingList={() => {
-                  this.deleteFromShoppingList(listObject._id);
-                }}
+                deleteFromShoppingList={() => {this.deleteFromShoppingList(listObject._id)}}
               />
             ))}
           </View>
@@ -137,9 +125,7 @@ class GroceryList extends React.Component {
             <Text style={styles.head}>Your Grocery List is Empty</Text>
             <Button
               title={'check again'}
-              onPress={() => {
-                this.getUserDataFromDB();
-              }}
+              onPress={() => {this.getUserDataFromDB()}}
               color='rgb(92,112,143)'
             />
           </View>

@@ -7,7 +7,7 @@ export default function Form(props) {
     <View style={styles.container}>
       <View>
         <TextInput
-          onChangeText={(text) => props.handleInputChange(text)}
+          onChangeText={text => props.handleInputChange(text)}
           placeholder='Search Recipe'
           style={styles.input}
           onSubmitEditing={props.handleFormSubmit}
