@@ -26,9 +26,7 @@ export default function FavoriteCard(props) {
         }}
         title='View Recipe'
         id={props.id}
-        onPress={() => {
-          props.handleViewBtn();
-        }}
+        onPress={() => {props.handleViewBtn()}}
       />
       <Button
         buttonStyle={{
@@ -37,9 +35,7 @@ export default function FavoriteCard(props) {
         }}
         title='Add Ingredients to Grocery List '
         id={props.id}
-        onPress={() => {
-          props.handleIngredients();
-        }}
+        onPress={() => {props.handleIngredients()}}
       />
       <Button
         buttonStyle={{
@@ -47,9 +43,7 @@ export default function FavoriteCard(props) {
           backgroundColor: 'rgb(242,127,118)',
         }}
         title='Delete '
-        onPress={() => {
-          props.deleteFromFavorites();
-        }}
+        onPress={() => {props.deleteFromFavorites()}}
       />
     </Card>
   );

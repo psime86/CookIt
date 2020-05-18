@@ -15,7 +15,7 @@ class settings extends React.Component{
 
     componentDidMount(){
 
-    _getIdAsyncData = async () => {
+    _getAllAsyncData = async () => {
         try {
         let activeUser = await AsyncStorage.getItem('allData');
         console.log(activeUser + "**PROFILE SCREEN**");
@@ -32,7 +32,7 @@ class settings extends React.Component{
         }
     };
 
-    _getIdAsyncData().then(() => {
+    _getAllAsyncData().then(() => {
         this.setState({ isLoggedin:true })
         })
   }   
