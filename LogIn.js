@@ -41,7 +41,7 @@ export default function App() {
             setLoggedinStatus(true);
             setUserData(data);
             // My add. (bryan) to view response and send data, new from this line down to line 
-            console.log(data);
+            console.log(data + " Log-in line 44");
             // Create object to hold user data from FB
             let facebookUserData = {
               email : data.email,
@@ -70,8 +70,8 @@ export default function App() {
             // Send the data to the back end for validation to see if user exists, if not create user
             API.sendUserToDB(facebookUserData)
             .then(data => {
-              console.log("on the login page")
-              console.log(data)
+              console.log("on the login page line 73")
+              console.log(data + " DBID on Login line 74")
               // Save the returned database id to "databaseId" in async storage
               _storeData("databaseId", data);
             })
@@ -81,7 +81,7 @@ export default function App() {
               // Need to somehow save user object to APP..... AsyncStorage? state / context? redirect to homeScreen and pass object?
 
             
-              console.log(data + "**LOG-IN PAGE**");
+              console.log(data + "**LOG-IN PAGE line 84**");
           })
           
           .catch(e => console.log(e))
@@ -113,8 +113,8 @@ export default function App() {
     _removeUserID("databaseId");
     
   }
-  console.log(isLoggedin + "-LogIn");
-  console.log(userData + "**LOG-IN USER**");
+  console.log(isLoggedin + "-LogIn line 116");
+  console.log(userData + "**LOG-IN USER line 117**");
 
 if (isLoggedin === true){
   navigation.setOptions({ headerShown: false });

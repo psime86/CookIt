@@ -7,6 +7,7 @@ import {
   AsyncStorage,
   Button,
   StyleSheet,
+  Alert,
 } from 'react-native';
 import API from '../utils/API';
 // import { ScrollView } from 'react-native-gesture-handler';
@@ -115,6 +116,13 @@ class FavoriteList extends React.Component {
       API.addRecipeGroceryListToDBAndUser(recipeIngredientData).then((res) => {
         console.log('returned from grocery route back to front end');
         console.log(res);
+        if (!res.name) {
+          Alert.alert(
+            'Invalid Entry',
+            'This recipe is already added to your Grocery List.'
+          );
+        }
+
       });
     });
   };

@@ -29,7 +29,7 @@ class settings extends React.Component{
         } catch (error) {
         console.log('error retrieving allData from Async.');
         console.log('getItem error: ' + error);
-        }
+        }      
     };
 
     _getIdAsyncData().then(() => {
@@ -78,7 +78,7 @@ class settings extends React.Component{
           <View style={styles.container}>
             <Image
               style={{ width: 200, height: 200, borderRadius: 50, marginVertical: 20 }}
-              source={require("../assets/images/React.png")} />
+              source={require("../assets/images/icon1.png")} />
             <TouchableOpacity style={styles.loginBtn} onPress={this.facebookLogIn}>
               <Text style={{ color: "#fff" }}>Login with Facebook</Text>
             </TouchableOpacity>

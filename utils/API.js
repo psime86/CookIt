@@ -59,7 +59,7 @@ export default {
   sendUserToDB: function (facebookUserData) {
     return axios({
       method: 'POST',
-      url: 'http://192.168.1.14/api/user',
+      url: 'http://192.168.1.14:5000/api/user',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ export default {
   addFavRecipeToDBAndUser: function (recipeObject) {
     return axios({
       method: 'POST',
-      url: 'http://192.168.1.14/api/recipe',
+      url: 'http://192.168.1.14:5000/api/recipe',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ export default {
   addRecipeGroceryListToDBAndUser: function (groceryListObject) {
     return axios({
       method: 'POST',
-      url: 'http://192.168.1.14/api/grocery',
+      url: 'http://192.168.1.14:5000/api/grocery',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -115,7 +115,7 @@ export default {
 
     return axios({
       method: 'GET',
-      url: 'http://192.168.1.14/api/findUser/' + id,
+      url: 'http://192.168.1.14:5000/api/findUser/' + id,
       headers: {
         Accept: 'application/json',
         'content-type': 'application/json',
@@ -132,7 +132,7 @@ export default {
   deleteRecipeFromUser: function (deleteDataObject) {
     return axios({
       method: 'DELETE',
-      url: 'http://192.168.1.14/api/deleteFavRecipe',
+      url: 'http://192.168.1.14:5000/api/deleteFavRecipe',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -150,7 +150,7 @@ export default {
   deleteGroceryListFromUser: function (deleteDataObject) {
     return axios({
       method: 'DELETE',
-      url: 'http://192.168.1.14/api/deleteGroceryList',
+      url: 'http://192.168.1.14:5000/api/deleteGroceryList',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
