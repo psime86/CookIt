@@ -5,6 +5,7 @@ import ShareButton from '../components/ShareButton';
 
 export default function BodyCard(props) {
   let imageURI = `https://spoonacular.com/recipeImages/${props.image}-240x150.jpg`
+  
   return (
     <Card
       id={props.id}
