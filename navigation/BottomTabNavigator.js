@@ -27,7 +27,7 @@ export default function BottomTabNavigator({ navigation, route }) {
       <BottomTab.Screen
         name='Home'
         component={HomeScreen}
-        options={{          
+        options={{
           title: 'Home',
           tabBarIcon: ({ focused }) => (
             <FontAwesome5
@@ -73,19 +73,19 @@ export default function BottomTabNavigator({ navigation, route }) {
       />
 
       <BottomTab.Screen
-        name="Profile"
+        name='Profile'
         component={Profile}
         options={{
           // tabBarVisible: false,
           title: 'Profile',
           tabBarIcon: ({ focused }) => (
-          <MaterialIcons 
-          focused={focused}
-          name="person" 
-          size={34}
-          color="black"
-          />
-          )
+            <MaterialIcons
+              focused={focused}
+              name='person'
+              size={34}
+              color='black'
+            />
+          ),
         }}
       />
     </BottomTab.Navigator>

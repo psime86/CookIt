@@ -9,7 +9,6 @@ import React from 'react';
 // Define API functions inside exported module.
 
 export default {
-
   //=================================================================================================
   // Route to get recipe from Spoonacular API by "searchTerm" (query).
   //=================================================================================================
@@ -22,15 +21,15 @@ export default {
 
     // Search spoonacular for recipe "FROM SPOONACULAR API (NOT RAPID API)"
     return axios({
-      "method": "GET",
-      "url": `https://api.spoonacular.com/recipes/search?query=${searchTerm}&number=20&apiKey=${apiKey}`,
-      "header": {
-        "Accept": "application/json",
-        "content-type": "application/json",
+      method: 'GET',
+      url: `https://api.spoonacular.com/recipes/search?query=${searchTerm}&number=20&apiKey=${apiKey}`,
+      header: {
+        Accept: 'application/json',
+        'content-type': 'application/json',
       },
     })
-    .then(res => res.data)
-    .catch(err => console.log(err));
+      .then((res) => res.data)
+      .catch((err) => console.log(err));
   },
 
   //=================================================================================================
@@ -42,16 +41,15 @@ export default {
     console.log('ID: ' + recipeId);
 
     return axios({
-      "method": "GET",
-      "url": `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${apiKey}`,
-      "headers": 
-        {
-          "Accept": "application/json",
-          "content-type": "application/json",
-        },
+      method: 'GET',
+      url: `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${apiKey}`,
+      headers: {
+        Accept: 'application/json',
+        'content-type': 'application/json',
+      },
     })
-    .then(res => res.data)
-    .catch(err => console.log(err));
+      .then((res) => res.data)
+      .catch((err) => console.log(err));
   },
 
   //==========================================================================================================================
@@ -60,16 +58,16 @@ export default {
 
   sendUserToDB: function (facebookUserData) {
     return axios({
-      "method": 'POST',
-      "url": "http://192.168.1.14:5000/api/user",
-      "headers": {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
+      method: 'POST',
+      url: 'http://192.168.1.13:5000/api/user',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
-      "data": facebookUserData,
+      data: facebookUserData,
     })
-    .then(res => res.data)
-    .catch(err => console.log(err.response));
+      .then((res) => res.data)
+      .catch((err) => console.log(err.response));
   },
 
   //=============================================================================================
@@ -78,16 +76,16 @@ export default {
 
   addFavRecipeToDBAndUser: function (recipeObject) {
     return axios({
-      "method": "POST",
-      "url": "http://192.168.1.14:5000/api/recipe",
-      "headers": {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
+      method: 'POST',
+      url: 'http://192.168.1.13:5000/api/recipe',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
-      "data": recipeObject,
+      data: recipeObject,
     })
-    .then(res => res.data)
-    .catch(err => console.log(err.response));
+      .then((res) => res.data)
+      .catch((err) => console.log(err.response));
   },
 
   //============================================================================================
@@ -96,16 +94,16 @@ export default {
 
   addRecipeGroceryListToDBAndUser: function (groceryListObject) {
     return axios({
-      "method": 'POST',
-      "url": "http://192.168.1.14:5000/api/grocery",
-      "headers": {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
+      method: 'POST',
+      url: 'http://192.168.1.13:5000/api/grocery',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
-      "data": groceryListObject,
+      data: groceryListObject,
     })
-    .then(res => res.data)
-    .catch(err => console.log(err.response));
+      .then((res) => res.data)
+      .catch((err) => console.log(err.response));
   },
 
   //========================================================================================
@@ -116,33 +114,33 @@ export default {
     console.log('made it to API');
 
     return axios({
-      "method": "GET",
-      "url": "http://192.168.1.14:5000/api/findUser/" + id,
-      "headers": {
-        "Accept": "application/json",
-        "content-type": "application/json",
+      method: 'GET',
+      url: 'http://192.168.1.13:5000/api/findUser/' + id,
+      headers: {
+        Accept: 'application/json',
+        'content-type': 'application/json',
       },
     })
-    .then(res => res.data[0])
-    .catch(err => console.log(err.response));
+      .then((res) => res.data[0])
+      .catch((err) => console.log(err.response));
   },
 
   //========================================================================================
   // Delete Recipe document '_id' form User document "recipe" array.
   //========================================================================================
 
-  deleteRecipeFromUser: function(deleteDataObject) {
+  deleteRecipeFromUser: function (deleteDataObject) {
     return axios({
-      "method": "DELETE",
-      "url": "http://192.168.1.14:5000/api/deleteFavRecipe",
-      "headers": {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
+      method: 'DELETE',
+      url: 'http://192.168.1.13:5000/api/deleteFavRecipe',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
-      "data": deleteDataObject,
+      data: deleteDataObject,
     })
-    .then(res => res.data)
-    .catch(err => console.log(err.response));
+      .then((res) => res.data)
+      .catch((err) => console.log(err.response));
   },
 
   //========================================================================================
@@ -151,17 +149,34 @@ export default {
 
   deleteGroceryListFromUser: function (deleteDataObject) {
     return axios({
-      "method": "DELETE",
-      "url": "http://192.168.1.14:5000/api/deleteGroceryList",
-      "headers": {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
+      method: 'DELETE',
+      url: 'http://192.168.1.13:5000/api/deleteGroceryList',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
-      "data": deleteDataObject,
+      data: deleteDataObject,
     })
-    .then(res => res.data)
-    .catch(err => console.log(err.response));
+      .then((res) => res.data)
+      .catch((err) => console.log(err.response));
+  },
+
+  //get Random Recipe
+  getRandonRecipe: function () {
+    // Define the api key and apiURL
+    let apiKey = SPOONACULAR_API;
+    console.log('key: ' + apiKey);
+
+    // Search Popular Recipe
+    return axios({
+      method: 'GET',
+      url: `https://api.spoonacular.com/recipes/search?query=popular&number=15&apiKey=${apiKey}`,
+      header: {
+        Accept: 'application/json',
+        'content-type': 'application/json',
+      },
+    })
+      .then((res) => res.data)
+      .catch((err) => console.log(err));
   },
 };
-
-

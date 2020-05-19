@@ -51,7 +51,6 @@ export default function GroceryCard(props) {
               <MaterialCommunityIcons
                 name='close-box-outline'
                 size={24}
-
                 color='black'
                 style={styles.icon}
                 onPress={(e) => deleteHandler(list)}
@@ -63,13 +62,13 @@ export default function GroceryCard(props) {
         {/*Input Text*/}
         <TextInput
           style={styles.input}
-
           placeholder='Add Additional Item'
           onChangeText={changeHandler}
           onSubmitEditing={() => submitHandler(text)}
           returnKeyType='done'
+          value={text}
         />
-       
+
         {/*Delete button*/}
         <Button
           buttonStyle={{
