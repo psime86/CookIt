@@ -8,7 +8,7 @@
     "icon": "./assets/images/icon1.png",
     "scheme": "myapp",
     "splash": {
-      "image": "./assets/images/Welcome2.jpg",
+      "image": "./assets/images/Welcome2.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
