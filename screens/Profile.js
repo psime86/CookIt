@@ -128,7 +128,7 @@ export default function App() {
               borderRadius: 50,
               marginTop: 40,
               marginHorizontal: 30,
-              marginLeft: 90,
+              marginLeft: 95,
             }}
             source={{ uri: userData.picture.data.url }}
             onLoadEnd={() => setImageLoadStatus(true)}
@@ -139,7 +139,7 @@ export default function App() {
             animating={!isImageLoading}
             style={{ position: 'absolute' }}
           />
-          <Text style={{ fontSize: 22, marginVertical: 10, marginLeft: 120 }}>
+          <Text style={{ fontSize: 22, marginVertical: 10, marginLeft: 125 }}>
             Hi {userData.name}!
           </Text>
           <TouchableOpacity style={styles.logoutBtn} onPress={this.logout}>
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 20,
-    marginTop: 300,
+    marginTop: 330,
     position: 'absolute',
     marginLeft: 100,
   },
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 20,
     position: 'absolute',
-    marginLeft: 140,
+    marginLeft: 145,
     marginTop: 300,
   },
 });
