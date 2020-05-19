@@ -128,7 +128,7 @@ export default function App() {
               borderRadius: 50,
               marginTop: 40,
               marginHorizontal: 30,
-              marginLeft: 95,
+              marginLeft: 100,
             }}
             source={{ uri: userData.picture.data.url }}
             onLoadEnd={() => setImageLoadStatus(true)}
