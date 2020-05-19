@@ -4,16 +4,20 @@ import * as Facebook from 'expo-facebook';
 import API from '../utils/API'
 import { apisAreAvailable } from 'expo';
 import { AsyncStorage } from 'react-native';
+import { NavigationContainer, useNavigation, navigation, StackActions } from '@react-navigation/native';
 
 
 
 console.disableYellowBox = true;
+//const Stack = createStackNavigator();
 
 export default function App() {
 
   const [isLoggedin, setLoggedinStatus] = useState(false);
   const [userData, setUserData] = useState(null);
   const [isImageLoading, setImageLoadStatus] = useState(false);
+  const navigation = useNavigation();
+  navigation.setOptions({ headerShown: false });
 
   facebookLogIn = async () => {
     try {
@@ -73,7 +77,7 @@ export default function App() {
                
               // Need to somehow save user object to APP..... AsyncStorage? state / context? redirect to homeScreen and pass object?
 
-            
+              
 
           })
           .catch(e => console.log(e))
@@ -102,6 +106,12 @@ export default function App() {
     _removeUserID("uidFB");
     _removeUserID("databaseId");
     
+  }
+
+  if( isLoggedin === true) {
+    navigation.setOptions({ tabBarVisible: true})
+  } else {
+    navigation.setOptions({ tabBarVisible: false})
   }
 
   return (
