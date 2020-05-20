@@ -71,7 +71,7 @@ MongoDB
 
 #### HomeScreen
 
-![homeScreen_functions](assets/images/homeScreen_functions)
+![homeScreen_functions](assets/images/homeScreen_functions.gif)
 
 #### Grocery List
 
