@@ -18,6 +18,7 @@ import {
   navigation,
   StackActions,
 } from '@react-navigation/native';
+import { APP_ID } from 'react-native-dotenv';
 
 console.disableYellowBox = true;
 //const Stack = createStackNavigator();
@@ -28,17 +29,18 @@ export default function App() {
   const [isImageLoading, setImageLoadStatus] = useState(false);
   const navigation = useNavigation();
   navigation.setOptions({ headerShown: false });
+  const FBID = APP_ID;
 
   facebookLogIn = async () => {
     try {
-      await Facebook.initializeAsync('237042010845194');
+      await Facebook.initializeAsync(FBID);
       const {
         type,
         token,
         expires,
         permissions,
         declinedPermissions,
-      } = await Facebook.logInWithReadPermissionsAsync('237042010845194', {
+      } = await Facebook.logInWithReadPermissionsAsync(FBID, {
         permissions: ['public_profile'],
       });
       if (type === 'success') {
