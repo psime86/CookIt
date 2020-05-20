@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d55a7956-837a-448e-8e87-67390b3fcb0c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/screens/HomeScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/HomeScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CookIt.iws" beforeDir="false" afterPath="$PROJECT_DIR$/CookIt.iws" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/API.js" beforeDir="false" afterPath="$PROJECT_DIR$/utils/API.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,7 +16,7 @@
   </component>
   <component name="ProjectId" id="1bMJjTbnu8RuqJKg7mVcNOLxtb0" />
   <component name="PropertiesComponent">
-    <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
+    <property name="android.sdk.path" value="$PROJECT_DIR$/../AppData/Local/Android/Sdk" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
