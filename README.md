@@ -10,6 +10,8 @@ expo install expo-facebook
 
 npm i axios node dotenv
 
+npm install react-native-pull-to-refresh
+
 ---------------------------------------------
 
 Backend Dependencies:
