@@ -100,7 +100,7 @@ const db = require("../models/index")
         db.User.findById({ _id: userReference }).populate("recipes")
             .then(data => {
                 console.log(data)
-                // If no recipes iin recipe array, create doc and add
+                // If no recipes in recipe array, create doc and add
                 if ( !data.recipes.length) {
                     console.log("no recipes in found for this user!")
                     // Create Recipe document here
@@ -168,7 +168,8 @@ const db = require("../models/index")
                             }) 
                         }
                 }
-            })        
+            })
+            .catch(err => console.log(err))        
     })
 
     //=====================================================================================================================================================================
